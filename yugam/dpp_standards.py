@@ -241,6 +241,6 @@ def get_standards_mapping_payload(passport: Dict[str, Any]) -> Dict[str, Any]:
         return {
             "profile": MAPPING_PROFILE,
             "status": "unavailable",
-            "error": str(ex),
+            "error": "Standards mapping is temporarily unavailable.",
             "disclaimer": DISCLAIMER,
         }

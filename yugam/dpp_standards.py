@@ -236,8 +236,8 @@ def get_standards_mapping_payload(passport: Dict[str, Any]) -> Dict[str, Any]:
             "representation": representation,
             "disclaimer": DISCLAIMER,
         }
-    except Exception as ex:
-        logger.warning("OpenEPCIS standards mapping failed: %s", ex)
+    except Exception:
+        logger.exception("OpenEPCIS standards mapping failed")
         return {
             "profile": MAPPING_PROFILE,
             "status": "unavailable",

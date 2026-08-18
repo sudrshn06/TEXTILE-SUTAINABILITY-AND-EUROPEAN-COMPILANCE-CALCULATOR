@@ -55,6 +55,14 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
+try:
+    from yugam.ml_explainability import explain_stage_prediction
+except ImportError:
+    try:
+        from ml_explainability import explain_stage_prediction
+    except ImportError:
+        explain_stage_prediction = None
+
 app = FastAPI(title="CHAKRA-AI Secure API", version="2.3.0", docs_url=None, redoc_url=None)
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -1213,6 +1221,19 @@ def _compute_lca(data: LCAInput) -> dict:
     risk_label = ML_RISK_LABELS[risk_idx]; priority_stage = ML_STAGE_LABELS[stage_idx]
     stage_rank = np.argsort(stage_probs)[::-1]
     action = _ml_action_for_stage(priority_stage)
+    ml_explanation = None
+    if explain_stage_prediction is not None:
+        try:
+            ml_explanation = explain_stage_prediction(
+                XGB_STAGE_MODEL,
+                ml_features,
+                ml_scaled,
+                stage_idx,
+                priority_stage,
+            )
+        except Exception:
+            ml_explanation = None
+
     ai_decision = {
         "engine": "XGBoost decision-support engine",
         "risk_tier": risk_label,
@@ -1225,6 +1246,7 @@ def _compute_lca(data: LCAInput) -> dict:
         "priority_action": action["priority_action"],
         "decision_reason": action["why"],
         "decision_scope": "Operational sustainability decision support; does not replace source-traceable LCA or legal/scheme verification.",
+        "ml_explanation": ml_explanation,
     }
 
     stage_emissions = {

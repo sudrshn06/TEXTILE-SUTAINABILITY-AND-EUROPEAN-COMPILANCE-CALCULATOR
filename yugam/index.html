@@ -789,6 +789,7 @@
                             <div class="benchmark-unavailable">Calculate the batch to analyze production stages.</div>
                         </div>
                         <div id="xgb-priority-result" class="priority-result">Priority Stage: <strong>Unavailable</strong></div>
+                        <div id="xgb-shap-explanation"></div>
                     </article>
 
                     <article id="claim-evidence-card" class="saas-card spotlight-card fade-surface p-5 flex flex-col justify-between">
@@ -1609,6 +1610,8 @@
             if (analysis) analysis.innerHTML = '<div class="benchmark-unavailable">Analyzing production stages...</div>';
             document.getElementById('xgb-analysis-title').textContent = 'Analyzing production stages...';
             setStateChip(document.getElementById('xgb-risk-chip'), 'Model running');
+            const shapContainer = document.getElementById('xgb-shap-explanation');
+            if (shapContainer) shapContainer.innerHTML = '';
         }
 
         function renderFactoryFlow(aiDecision, operationalAssessment) {
@@ -1685,6 +1688,53 @@
                 const ranking = (aiDecision.top_stage_ranking || []).join(' → ');
                 if (ranking) result.append(` • Top 3: ${ranking}`);
             }, 600);
+
+            const shapContainer = document.getElementById('xgb-shap-explanation');
+            if (shapContainer) {
+                const exp = aiDecision.ml_explanation;
+                if (exp && exp.features && exp.features.length) {
+                    const target = exp.target || aiDecision.priority_stage;
+                    let shapHtml = `
+                        <div class="mt-3 pt-3 border-t border-saas-border">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-saas-sec">Why this hotspot?</span>
+                                <span class="text-[10px] font-mono font-semibold px-2 py-0.5 rounded bg-saas-surface text-saas-sec border border-saas-border">TreeSHAP</span>
+                            </div>
+                            <div class="space-y-2">
+                    `;
+                    exp.features.forEach(f => {
+                        const isToward = f.direction === 'toward';
+                        const dirText = isToward ? `Pushes toward ${target}` : `Pushes away from ${target}`;
+                        const dirClass = isToward ? 'text-saas-primary' : 'text-saas-sec';
+                        const barClass = isToward ? 'bg-saas-primary' : 'bg-saas-sec';
+                        const valText = f.value !== undefined ? `${f.value} ${f.unit || ''}` : '';
+                        const pct = f.relative_influence_percent || 0;
+                        shapHtml += `
+                            <div class="p-2 bg-saas-surface rounded-lg border border-saas-border text-xs">
+                                <div class="flex justify-between items-start gap-2">
+                                    <span class="font-semibold text-saas-text">${escapeHtml(f.feature_name || f.feature, 60)}</span>
+                                    <span class="font-mono text-[11px] font-bold ${dirClass}">${dirText}</span>
+                                </div>
+                                <div class="flex justify-between items-center text-[11px] text-saas-sec mt-1">
+                                    <span>Value: <strong class="text-saas-text font-mono">${escapeHtml(valText, 40)}</strong></span>
+                                    <span class="font-mono">Relative model influence: <strong>${pct}%</strong></span>
+                                </div>
+                                <div class="w-full bg-saas-card rounded-full h-1 mt-1.5 overflow-hidden">
+                                    <div class="h-1 rounded-full ${barClass}" style="width: ${Math.min(100, Math.max(5, pct))}%"></div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    shapHtml += `
+                            </div>
+                            <p class="text-[10px] text-saas-sec mt-2 italic">${escapeHtml(exp.disclaimer || 'SHAP explains ML prioritisation only. Carbon, water, energy and waste calculations remain deterministic.', 200)}</p>
+                        </div>
+                    `;
+                    shapContainer.innerHTML = shapHtml;
+                } else {
+                    shapContainer.innerHTML = '';
+                }
+            }
         }
 
         function renderBenchmarkVisual(currentIntensity, buyerBenchmark) {

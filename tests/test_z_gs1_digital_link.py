@@ -24,12 +24,44 @@ from yugam.dpp_standards import (
     map_passport_to_openepcis_jsonld,
     STANDARDS_ALLOW_LIST,
 )
+import yugam.app as app_mod
 from yugam.app import app, _db, _canonical_json, SIGNING_PRIVATE_KEY
 
 
-# Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+@pytest.fixture
+def isolated_db(tmp_path, monkeypatch):
+    """
+    Isolate the SQLite database for GS1 integration tests using pytest's tmp_path.
+    Ensures a fresh, temporary test database is created, initialized with the real
+    CHAKRA schema via _init_db(), and populated with a deterministic test user.
+    """
+    test_db = tmp_path / "gs1_test.db"
+    monkeypatch.setattr(app_mod, "DB_PATH", test_db)
+    app_mod._init_db()
+
+    # Seed deterministic test user
+    with app_mod._db() as conn:
+        conn.execute(
+            "INSERT INTO users(email, name, factory, role, password_hash, active, created_at) VALUES(?,?,?,?,?,1,?)",
+            (
+                "test_auditor@chakra.local",
+                "Test Auditor",
+                "Tirupur Eco Unit",
+                "Compliance Auditor",
+                app_mod.PASSWORD_HASHER.hash("TestPass123!"),
+                int(time.time()),
+            ),
+        )
+        user_row = conn.execute("SELECT id, factory FROM users WHERE email='test_auditor@chakra.local'").fetchone()
+        user_id = user_row["id"]
+        factory = user_row["factory"]
+
+    return {"db_path": test_db, "user_id": user_id, "factory": factory}
+
+
+# ==============================================================================
 # 1. GS1 Check Digit Calculation & Validation Tests
-# Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+# ==============================================================================
 
 def test_calculate_gtin_check_digit_valid_vectors():
     # Official GS1 check digit test vectors
@@ -112,9 +144,9 @@ def test_validate_gtin_non_numeric_and_invalid_lengths():
     assert not valid
 
 
-# Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+# ==============================================================================
 # 2. AI 10 Batch/Lot Validation (1*20 XCHAR) Tests
-# Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+# ==============================================================================
 
 def test_validate_batch_lot_valid_inputs():
     # Standard alphanumeric
@@ -174,9 +206,9 @@ def test_validate_batch_lot_invalid_inputs():
     assert "outside GS1 XCHAR" in err
 
 
-# Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+# ==============================================================================
 # 3. GS1 Digital Link URI Building Tests
-# Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+# ==============================================================================
 
 def test_build_gs1_digital_link_no_batch():
     uri = build_gs1_digital_link("09520123456788", base_url="https://example.com")
@@ -209,9 +241,9 @@ def test_get_digital_link_payload_structure():
     assert "disclaimer" in payload
 
 
-# Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+# ==============================================================================
 # 4. Standards Mapping Semantic Verification Tests
-# Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+# ==============================================================================
 
 def test_standards_mapping_gs1_gtin_and_no_gs1_lot_number():
     passport = {
@@ -273,211 +305,206 @@ def test_standards_mapping_no_fabricated_gtin_when_absent():
     assert "gs1DigitalLink" not in rep.get("chakra:extensions", {})
 
 
-# Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+# ==============================================================================
 # 5. Routing Integration & Encoded-Slash Resolution Tests
-# Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
+# ==============================================================================
 
-def test_resolve_gs1_digital_link_with_encoded_slash():
+def test_resolve_gs1_digital_link_with_encoded_slash(isolated_db):
     """
     Test that /id/01/{gtin}/10/LOT%2F42 safely routes and decodes to 'LOT/42'
     without splitting into accidental path segments.
     """
-    client = TestClient(app)
+    with TestClient(app) as client:
+        # 1. Seed a test passport in the isolated DB with GTIN and a batch containing a slash
+        passport_id = "DPP-" + uuid.uuid4().hex[:20].upper()
+        calc_id = "CALC-" + uuid.uuid4().hex[:12].upper()
+        issued_at = int(time.time())
 
-    # 1. Seed a test passport in the DB with GTIN and a batch containing a slash
-    passport_id = "DPP-" + uuid.uuid4().hex[:20].upper()
-    calc_id = "CALC-" + uuid.uuid4().hex[:12].upper()
-    issued_at = int(time.time())
+        payload = {
+            "passport_id": passport_id,
+            "calculation_id": calc_id,
+            "factory": isolated_db["factory"],
+            "batch_state": "Tamil Nadu",
+            "fiber": "Recycled Cotton",
+            "weight_kg": 5000.0,
+            "carbon_intensity": 2.1,
+            "chakra_score": 85.0,
+            "bharat_score": 85.0,
+            "score_label": "High",
+            "operational_status": "PASS",
+            "failed_stage_count": 0,
+            "failed_stages": [],
+            "issued_at": issued_at,
+            "issuer_role": "Compliance Auditor",
+            "gtin": "09520123456788",
+            "batch_lot": "LOT/42",
+        }
+        signature = SIGNING_PRIVATE_KEY.sign(_canonical_json(payload))
+        signature_b64 = base64.urlsafe_b64encode(signature).decode("ascii")
 
-    payload = {
-        "passport_id": passport_id,
-        "calculation_id": calc_id,
-        "factory": "Tirupur Eco Unit",
-        "batch_state": "Tamil Nadu",
-        "fiber": "Recycled Cotton",
-        "weight_kg": 5000.0,
-        "carbon_intensity": 2.1,
-        "chakra_score": 85.0,
-        "bharat_score": 85.0,
-        "score_label": "High",
-        "operational_status": "PASS",
-        "failed_stage_count": 0,
-        "failed_stages": [],
-        "issued_at": issued_at,
-        "issuer_role": "Compliance Auditor",
-        "gtin": "09520123456788",
-        "batch_lot": "LOT/42",
-    }
-    signature = SIGNING_PRIVATE_KEY.sign(_canonical_json(payload))
-    import base64
-    signature_b64 = base64.urlsafe_b64encode(signature).decode("ascii")
+        with _db() as conn:
+            user_id = isolated_db["user_id"]
+            factory = isolated_db["factory"]
 
-    with _db() as conn:
-        user_row = conn.execute("SELECT id, factory FROM users LIMIT 1").fetchone()
-        user_id = user_row["id"]
-        factory = user_row["factory"]
+            conn.execute("""
+                INSERT OR REPLACE INTO calculations(calculation_id, user_id, factory, created_at, input_json, result_json, review_status)
+                VALUES(?,?,?,?,?,?,?)
+            """, (calc_id, user_id, factory, issued_at, json.dumps({"weight_kg": 5000, "state": "Tamil Nadu", "gtin": "09520123456788", "batch_lot": "LOT/42"}), json.dumps({"data": {}}), "approved"))
 
-        conn.execute("""
-            INSERT OR REPLACE INTO calculations(calculation_id, user_id, factory, created_at, input_json, result_json, review_status)
-            VALUES(?,?,?,?,?,?,?)
-        """, (calc_id, user_id, factory, issued_at, json.dumps({"weight_kg": 5000, "state": "Tamil Nadu", "gtin": "09520123456788", "batch_lot": "LOT/42"}), json.dumps({"data": {}}), "approved"))
+            conn.execute("""
+                INSERT INTO passports(passport_id, calculation_id, issuer_user_id, issued_at, payload_json, signature_b64)
+                VALUES(?,?,?,?,?,?)
+            """, (passport_id, calc_id, user_id, issued_at, json.dumps(payload), signature_b64))
 
-        conn.execute("""
-            INSERT INTO passports(passport_id, calculation_id, issuer_user_id, issued_at, payload_json, signature_b64)
-            VALUES(?,?,?,?,?,?)
-        """, (passport_id, calc_id, user_id, issued_at, json.dumps(payload), signature_b64))
+        # 2. Query with percent-encoded slash in batch: /id/01/09520123456788/10/LOT%2F42
+        resp = client.get("/id/01/09520123456788/10/LOT%2F42")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["status"] == "located"
+        assert data["gtin"] == "09520123456788"
+        assert data["batch_lot"] == "LOT/42"
+        assert data["passport_id"] == passport_id
+        assert passport_id in data["verification_url"]
 
-    # 2. Query with percent-encoded slash in batch: /id/01/09520123456788/10/LOT%2F42
-    resp = client.get("/id/01/09520123456788/10/LOT%2F42")
-    assert resp.status_code == 200
-    data = resp.json()
-    assert data["status"] == "located"
-    assert data["gtin"] == "09520123456788"
-    assert data["batch_lot"] == "LOT/42"
-    assert data["passport_id"] == passport_id
-    assert passport_id in data["verification_url"]
+        # 3. Query without batch: /id/01/09520123456788
+        resp_gtin_only = client.get("/id/01/09520123456788")
+        assert resp_gtin_only.status_code == 200
+        assert resp_gtin_only.json()["passport_id"] == passport_id
 
-    # 3. Query without batch: /id/01/09520123456788
-    resp_gtin_only = client.get("/id/01/09520123456788")
-    assert resp_gtin_only.status_code == 200
-    assert resp_gtin_only.json()["passport_id"] == passport_id
+        # 4. Query with invalid batch containing space -> 400 Bad Request
+        resp_invalid_batch = client.get("/id/01/09520123456788/10/LOT%2042")
+        assert resp_invalid_batch.status_code == 400
+        assert "Invalid AI 10 Batch/Lot" in resp_invalid_batch.json()["detail"]
 
-    # 4. Query with invalid batch containing space -> 400 Bad Request
-    resp_invalid_batch = client.get("/id/01/09520123456788/10/LOT%2042")
-    assert resp_invalid_batch.status_code == 400
-    assert "Invalid AI 10 Batch/Lot" in resp_invalid_batch.json()["detail"]
-
-    # 5. Query with non-matching batch -> 404
-    resp_nomatch = client.get("/id/01/09520123456788/10/OTHER-BATCH")
-    assert resp_nomatch.status_code == 404
+        # 5. Query with non-matching batch -> 404
+        resp_nomatch = client.get("/id/01/09520123456788/10/OTHER-BATCH")
+        assert resp_nomatch.status_code == 404
 
 
-def test_resolve_literal_percent_data_no_double_decoding():
+def test_resolve_literal_percent_data_no_double_decoding(isolated_db):
     """
     Regression test: Stored batch 'LOT%2F42' must generate '.../10/LOT%252F42'
     and resolve back to 'LOT%2F42' (NOT double-decoded to 'LOT/42').
     """
-    client = TestClient(app)
-    unique_gtin = "9501101530003"
-    norm_gtin = normalize_gtin(unique_gtin)
+    with TestClient(app) as client:
+        unique_gtin = "9501101530003"
+        norm_gtin = normalize_gtin(unique_gtin)
 
-    # Stored batch with literal percent sequence
-    stored_batch = "LOT%2F42"
-    generated_uri = build_gs1_digital_link(unique_gtin, batch_lot=stored_batch, base_url="http://testserver")
-    assert "/10/LOT%252F42" in generated_uri
+        # Stored batch with literal percent sequence
+        stored_batch = "LOT%2F42"
+        generated_uri = build_gs1_digital_link(unique_gtin, batch_lot=stored_batch, base_url="http://testserver")
+        assert "/10/LOT%252F42" in generated_uri
 
-    passport_id = "DPP-" + uuid.uuid4().hex[:20].upper()
-    calc_id = "CALC-" + uuid.uuid4().hex[:12].upper()
-    issued_at = int(time.time())
+        passport_id = "DPP-" + uuid.uuid4().hex[:20].upper()
+        calc_id = "CALC-" + uuid.uuid4().hex[:12].upper()
+        issued_at = int(time.time())
 
-    payload = {
-        "passport_id": passport_id,
-        "calculation_id": calc_id,
-        "factory": "Tirupur Eco Unit",
-        "batch_state": "Tamil Nadu",
-        "fiber": "Recycled Cotton",
-        "weight_kg": 5000.0,
-        "carbon_intensity": 2.1,
-        "chakra_score": 85.0,
-        "bharat_score": 85.0,
-        "score_label": "High",
-        "operational_status": "PASS",
-        "failed_stage_count": 0,
-        "failed_stages": [],
-        "issued_at": issued_at,
-        "issuer_role": "Compliance Auditor",
-        "gtin": unique_gtin,
-        "batch_lot": stored_batch,
-    }
-    signature = SIGNING_PRIVATE_KEY.sign(_canonical_json(payload))
-    signature_b64 = base64.urlsafe_b64encode(signature).decode("ascii")
+        payload = {
+            "passport_id": passport_id,
+            "calculation_id": calc_id,
+            "factory": isolated_db["factory"],
+            "batch_state": "Tamil Nadu",
+            "fiber": "Recycled Cotton",
+            "weight_kg": 5000.0,
+            "carbon_intensity": 2.1,
+            "chakra_score": 85.0,
+            "bharat_score": 85.0,
+            "score_label": "High",
+            "operational_status": "PASS",
+            "failed_stage_count": 0,
+            "failed_stages": [],
+            "issued_at": issued_at,
+            "issuer_role": "Compliance Auditor",
+            "gtin": unique_gtin,
+            "batch_lot": stored_batch,
+        }
+        signature = SIGNING_PRIVATE_KEY.sign(_canonical_json(payload))
+        signature_b64 = base64.urlsafe_b64encode(signature).decode("ascii")
 
-    with _db() as conn:
-        user_row = conn.execute("SELECT id, factory FROM users LIMIT 1").fetchone()
-        user_id = user_row["id"]
-        factory = user_row["factory"]
+        with _db() as conn:
+            user_id = isolated_db["user_id"]
+            factory = isolated_db["factory"]
 
-        conn.execute("""
-            INSERT OR REPLACE INTO calculations(calculation_id, user_id, factory, created_at, input_json, result_json, review_status)
-            VALUES(?,?,?,?,?,?,?)
-        """, (calc_id, user_id, factory, issued_at, json.dumps({"weight_kg": 5000, "state": "Tamil Nadu", "gtin": unique_gtin, "batch_lot": stored_batch}), json.dumps({"data": {}}), "approved"))
+            conn.execute("""
+                INSERT OR REPLACE INTO calculations(calculation_id, user_id, factory, created_at, input_json, result_json, review_status)
+                VALUES(?,?,?,?,?,?,?)
+            """, (calc_id, user_id, factory, issued_at, json.dumps({"weight_kg": 5000, "state": "Tamil Nadu", "gtin": unique_gtin, "batch_lot": stored_batch}), json.dumps({"data": {}}), "approved"))
 
-        conn.execute("""
-            INSERT INTO passports(passport_id, calculation_id, issuer_user_id, issued_at, payload_json, signature_b64)
-            VALUES(?,?,?,?,?,?)
-        """, (passport_id, calc_id, user_id, issued_at, json.dumps(payload), signature_b64))
+            conn.execute("""
+                INSERT INTO passports(passport_id, calculation_id, issuer_user_id, issued_at, payload_json, signature_b64)
+                VALUES(?,?,?,?,?,?)
+            """, (passport_id, calc_id, user_id, issued_at, json.dumps(payload), signature_b64))
 
-    # Requesting the generated URI path with %252F in TestClient (which decodes once in ASGI transport)
-    resp = client.get(f"/id/01/{unique_gtin}/10/LOT%25252F42")
-    assert resp.status_code == 200
-    data = resp.json()
-    assert data["status"] == "located"
-    assert data["batch_lot"] == "LOT%2F42"
-    assert data["batch_lot"] != "LOT/42"
-    assert data["passport_id"] == passport_id
+        # Requesting the generated URI path with %252F in TestClient (which decodes once in ASGI transport)
+        resp = client.get(f"/id/01/{unique_gtin}/10/LOT%25252F42")
+        assert resp.status_code == 200
+        data = resp.json()
+        assert data["status"] == "located"
+        assert data["batch_lot"] == "LOT%2F42"
+        assert data["batch_lot"] != "LOT/42"
+        assert data["passport_id"] == passport_id
 
 
-def test_resolve_gtin_only_ambiguity_returns_409():
+def test_resolve_gtin_only_ambiguity_returns_409(isolated_db):
     """
     When multiple passports share the same GTIN but different batches,
     a GTIN-only lookup must return HTTP 409 Conflict.
     A batch-specific lookup must resolve only the matching record.
     """
-    client = TestClient(app)
-    shared_gtin = "012345678905"
-    norm_gtin = normalize_gtin(shared_gtin)
-    issued_at = int(time.time())
+    with TestClient(app) as client:
+        shared_gtin = "012345678905"
+        norm_gtin = normalize_gtin(shared_gtin)
+        issued_at = int(time.time())
 
-    with _db() as conn:
-        user_row = conn.execute("SELECT id, factory FROM users LIMIT 1").fetchone()
-        user_id = user_row["id"]
-        factory = user_row["factory"]
+        user_id = isolated_db["user_id"]
+        factory = isolated_db["factory"]
 
-        # Insert Passport A (LOT-AMBIG-A)
-        pid_a = "DPP-" + uuid.uuid4().hex[:20].upper()
-        cid_a = "CALC-" + uuid.uuid4().hex[:12].upper()
-        payload_a = {
-            "passport_id": pid_a, "calculation_id": cid_a, "factory": factory,
-            "fiber": "Recycled Cotton", "weight_kg": 1000.0, "issued_at": issued_at,
-            "gtin": shared_gtin, "batch_lot": "LOT-AMBIG-A",
-        }
-        sig_a = base64.urlsafe_b64encode(SIGNING_PRIVATE_KEY.sign(_canonical_json(payload_a))).decode("ascii")
-        conn.execute("INSERT OR REPLACE INTO calculations(calculation_id, user_id, factory, created_at, input_json, result_json, review_status) VALUES(?,?,?,?,?,?,?)",
-                     (cid_a, user_id, factory, issued_at, json.dumps(payload_a), "{}", "approved"))
-        conn.execute("INSERT INTO passports(passport_id, calculation_id, issuer_user_id, issued_at, payload_json, signature_b64) VALUES(?,?,?,?,?,?)",
-                     (pid_a, cid_a, user_id, issued_at, json.dumps(payload_a), sig_a))
+        with _db() as conn:
+            # Insert Passport A (LOT-AMBIG-A)
+            pid_a = "DPP-" + uuid.uuid4().hex[:20].upper()
+            cid_a = "CALC-" + uuid.uuid4().hex[:12].upper()
+            payload_a = {
+                "passport_id": pid_a, "calculation_id": cid_a, "factory": factory,
+                "fiber": "Recycled Cotton", "weight_kg": 1000.0, "issued_at": issued_at,
+                "gtin": shared_gtin, "batch_lot": "LOT-AMBIG-A",
+            }
+            sig_a = base64.urlsafe_b64encode(SIGNING_PRIVATE_KEY.sign(_canonical_json(payload_a))).decode("ascii")
+            conn.execute("INSERT OR REPLACE INTO calculations(calculation_id, user_id, factory, created_at, input_json, result_json, review_status) VALUES(?,?,?,?,?,?,?)",
+                         (cid_a, user_id, factory, issued_at, json.dumps(payload_a), "{}", "approved"))
+            conn.execute("INSERT INTO passports(passport_id, calculation_id, issuer_user_id, issued_at, payload_json, signature_b64) VALUES(?,?,?,?,?,?)",
+                         (pid_a, cid_a, user_id, issued_at, json.dumps(payload_a), sig_a))
 
-        # Insert Passport B (LOT-AMBIG-B)
-        pid_b = "DPP-" + uuid.uuid4().hex[:20].upper()
-        cid_b = "CALC-" + uuid.uuid4().hex[:12].upper()
-        payload_b = {
-            "passport_id": pid_b, "calculation_id": cid_b, "factory": factory,
-            "fiber": "Organic Cotton", "weight_kg": 2000.0, "issued_at": issued_at + 10,
-            "gtin": shared_gtin, "batch_lot": "LOT-AMBIG-B",
-        }
-        sig_b = base64.urlsafe_b64encode(SIGNING_PRIVATE_KEY.sign(_canonical_json(payload_b))).decode("ascii")
-        conn.execute("INSERT OR REPLACE INTO calculations(calculation_id, user_id, factory, created_at, input_json, result_json, review_status) VALUES(?,?,?,?,?,?,?)",
-                     (cid_b, user_id, factory, issued_at + 10, json.dumps(payload_b), "{}", "approved"))
-        conn.execute("INSERT INTO passports(passport_id, calculation_id, issuer_user_id, issued_at, payload_json, signature_b64) VALUES(?,?,?,?,?,?)",
-                     (pid_b, cid_b, user_id, issued_at + 10, json.dumps(payload_b), sig_b))
+            # Insert Passport B (LOT-AMBIG-B)
+            pid_b = "DPP-" + uuid.uuid4().hex[:20].upper()
+            cid_b = "CALC-" + uuid.uuid4().hex[:12].upper()
+            payload_b = {
+                "passport_id": pid_b, "calculation_id": cid_b, "factory": factory,
+                "fiber": "Organic Cotton", "weight_kg": 2000.0, "issued_at": issued_at + 10,
+                "gtin": shared_gtin, "batch_lot": "LOT-AMBIG-B",
+            }
+            sig_b = base64.urlsafe_b64encode(SIGNING_PRIVATE_KEY.sign(_canonical_json(payload_b))).decode("ascii")
+            conn.execute("INSERT OR REPLACE INTO calculations(calculation_id, user_id, factory, created_at, input_json, result_json, review_status) VALUES(?,?,?,?,?,?,?)",
+                         (cid_b, user_id, factory, issued_at + 10, json.dumps(payload_b), "{}", "approved"))
+            conn.execute("INSERT INTO passports(passport_id, calculation_id, issuer_user_id, issued_at, payload_json, signature_b64) VALUES(?,?,?,?,?,?)",
+                         (pid_b, cid_b, user_id, issued_at + 10, json.dumps(payload_b), sig_b))
 
-    # 1. GTIN-only request must return HTTP 409 Conflict with generic message
-    resp_ambig = client.get(f"/id/01/{shared_gtin}")
-    assert resp_ambig.status_code == 409
-    assert "Multiple Digital Product Passports exist for this GTIN" in resp_ambig.json()["detail"]
-    assert "Supply batch/lot (AI 10)" in resp_ambig.json()["detail"]
+        # 1. GTIN-only request must return HTTP 409 Conflict with generic message
+        resp_ambig = client.get(f"/id/01/{shared_gtin}")
+        assert resp_ambig.status_code == 409
+        assert "Multiple Digital Product Passports exist for this GTIN" in resp_ambig.json()["detail"]
+        assert "Supply batch/lot (AI 10)" in resp_ambig.json()["detail"]
 
-    # 2. GTIN + LOT-AMBIG-A resolves only Passport A
-    resp_a = client.get(f"/id/01/{shared_gtin}/10/LOT-AMBIG-A")
-    assert resp_a.status_code == 200
-    assert resp_a.json()["passport_id"] == pid_a
-    assert resp_a.json()["batch_lot"] == "LOT-AMBIG-A"
+        # 2. GTIN + LOT-AMBIG-A resolves only Passport A
+        resp_a = client.get(f"/id/01/{shared_gtin}/10/LOT-AMBIG-A")
+        assert resp_a.status_code == 200
+        assert resp_a.json()["passport_id"] == pid_a
+        assert resp_a.json()["batch_lot"] == "LOT-AMBIG-A"
 
-    # 3. GTIN + LOT-AMBIG-B resolves only Passport B
-    resp_b = client.get(f"/id/01/{shared_gtin}/10/LOT-AMBIG-B")
-    assert resp_b.status_code == 200
-    assert resp_b.json()["passport_id"] == pid_b
-    assert resp_b.json()["batch_lot"] == "LOT-AMBIG-B"
+        # 3. GTIN + LOT-AMBIG-B resolves only Passport B
+        resp_b = client.get(f"/id/01/{shared_gtin}/10/LOT-AMBIG-B")
+        assert resp_b.status_code == 200
+        assert resp_b.json()["passport_id"] == pid_b
+        assert resp_b.json()["batch_lot"] == "LOT-AMBIG-B"
 
 
 def test_lcainput_fail_closed_and_max_lengths():

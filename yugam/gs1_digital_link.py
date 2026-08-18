@@ -188,7 +188,7 @@ def get_digital_link_payload(
         return {
             "status": "unavailable",
             "reason": "no_verified_gtin_supplied",
-            "message": "GS1 Digital Link unavailable â€” no verified GTIN supplied.",
+            "message": "GS1 Digital Link unavailable - no verified GTIN supplied.",
             "syntax_standard": SYNTAX_STANDARD,
             "disclaimer": DISCLAIMER,
         }

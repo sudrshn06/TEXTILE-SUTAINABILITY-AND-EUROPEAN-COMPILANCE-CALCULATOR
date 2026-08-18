@@ -1,5 +1,5 @@
 """
-CHAKRA-AI Backend v2.3 — Evidence-Aware Textile Sustainability Screening
+CHAKRA-AI Backend v2.3 â€” Evidence-Aware Textile Sustainability Screening
 =========================================================================
 This build separates three things that were previously mixed together:
   1. transparent screening-LCA arithmetic,
@@ -71,11 +71,35 @@ except ImportError:
     except ImportError:
         get_standards_mapping_payload = None
 
+try:
+    from yugam.gs1_digital_link import (
+        validate_gtin,
+        validate_batch_lot,
+        normalize_gtin,
+        build_gs1_digital_link,
+        get_digital_link_payload,
+    )
+except ImportError:
+    try:
+        from gs1_digital_link import (
+            validate_gtin,
+            validate_batch_lot,
+            normalize_gtin,
+            build_gs1_digital_link,
+            get_digital_link_payload,
+        )
+    except ImportError:
+        validate_gtin = None
+        validate_batch_lot = None
+        normalize_gtin = None
+        build_gs1_digital_link = None
+        get_digital_link_payload = None
+
 app = FastAPI(title="CHAKRA-AI Secure API", version="2.3.0", docs_url=None, redoc_url=None)
 
-# ═══════════════════════════════════════════════════════════════════════════════
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 #  EVIDENCE-AWARE CONSTANTS
-# ═══════════════════════════════════════════════════════════════════════════════
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 CEA_GRID_VERSION = "21.0"
 CEA_GRID_FY = "2024-25"
@@ -245,7 +269,7 @@ def _ccts_awareness_scenario(actual_intensity: float, production_kg: float,
     }
 
 
-# ── XGBoost decision-support intelligence engine ───────────────────────────────
+# â”€â”€ XGBoost decision-support intelligence engine â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 # The model interprets factory/process data and makes operational decisions:
 #   1) sustainability risk tier, and
 #   2) highest-priority manufacturing stage for corrective action.
@@ -611,7 +635,7 @@ def _apply_operational_risk_guardrail(ai_decision: dict, assessment: dict) -> di
     })
     return ai_decision
 
-# ═══════════════════════════════════════════════════════════════════════════════
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 #  SECURE-BY-DESIGN LAYER
 #  - Real server authentication (Argon2id password hashing)
 #  - HttpOnly session cookies + CSRF tokens
@@ -622,7 +646,7 @@ def _apply_operational_risk_guardrail(ai_decision: dict, assessment: dict) -> di
 #  - Audit logging, login throttling and temporary account lockout
 #  - Trusted hosts, restrictive CORS, security headers and request-size limits
 #  - Ed25519 signed, server-derived passports with revocation support
-# ═══════════════════════════════════════════════════════════════════════════════
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
@@ -816,7 +840,7 @@ def _audit(event: str, request: Request, success: bool, user_id: Optional[int] =
         pass
 
 
-# ── Layered rate limits ────────────────────────────────────────────────────────
+# â”€â”€ Layered rate limits â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 _rate_store: dict[tuple[str, str], list[float]] = defaultdict(list)
 
 def _rate_limit_for(path: str) -> tuple[str, int, int]:
@@ -907,9 +931,9 @@ async def secure_request_middleware(request: Request, call_next):
     return response
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 #  AUTHENTICATION / AUTHORIZATION
-# ═══════════════════════════════════════════════════════════════════════════════
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 class StrictAPIModel(BaseModel):
     model_config = ConfigDict(extra="forbid", allow_inf_nan=False, str_strip_whitespace=True)
@@ -964,12 +988,42 @@ class LCAInput(StrictAPIModel):
     ccts_target_source: Optional[str] = Field(None, max_length=300)
     ccts_price_inr_per_tonne: Optional[float] = Field(None, ge=0, le=1000000)
 
+    # Optional GS1 Identifiers for standards-aligned Digital Link generation
+    gtin: Optional[str] = Field(None, max_length=14, description="Optional Global Trade Item Number (GTIN-8, 12, 13, or 14)")
+    batch_lot: Optional[str] = Field(None, max_length=20, description="Optional manufacturer/factory batch or lot number")
+
     @field_validator("state")
     @classmethod
     def validate_state(cls, v: str) -> str:
         if v not in STATE_ECOLOGY:
             raise ValueError("Unknown Indian state/UT")
         return v
+
+    @field_validator("gtin")
+    @classmethod
+    def validate_gtin_field(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None and str(v).strip():
+            raw = str(v).strip()
+            if validate_gtin is None:
+                raise ValueError("GTIN validation service is currently unavailable.")
+            is_valid, norm, err = validate_gtin(raw)
+            if not is_valid or not norm:
+                raise ValueError(f"Invalid GTIN: {err}")
+            return norm
+        return None
+
+    @field_validator("batch_lot")
+    @classmethod
+    def validate_batch_lot_field(cls, v: Optional[str]) -> Optional[str]:
+        if v is not None and str(v).strip():
+            raw = str(v).strip()
+            if validate_batch_lot is None:
+                raise ValueError("Batch/Lot validation service is currently unavailable.")
+            is_valid, clean_b, err = validate_batch_lot(raw)
+            if not is_valid or clean_b is None:
+                raise ValueError(f"Invalid AI 10 Batch/Lot: {err}")
+            return clean_b
+        return None
 
     @model_validator(mode="after")
     def validate_process_ratios_and_sources(self):
@@ -1158,9 +1212,9 @@ async def logout(request: Request, user: dict = Depends(require_csrf)):
     return response
 
 
-# ═══════════════════════════════════════════════════════════════════════════════
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 #  CORE LCA CALCULATION
-# ═══════════════════════════════════════════════════════════════════════════════
+# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
 def _compute_lca(data: LCAInput) -> dict:
     ecology = STATE_ECOLOGY[data.state]
@@ -1616,6 +1670,11 @@ async def mint_passport(ref: CalculationRef, request: Request,
             "espr_dpp_readiness": result["espr_dpp_readiness"],
             "claim": "Independently reviewed factual CHAKRA calculation record. A signature attests record integrity and review; it does not convert an operational FAIL into a sustainability PASS. Technical ESPR/DPP readiness only; not EU/government certification.",
         }
+        if inp.get("gtin"):
+            payload["gtin"] = inp["gtin"]
+            if inp.get("batch_lot"):
+                payload["batch_lot"] = inp["batch_lot"]
+
         signature = SIGNING_PRIVATE_KEY.sign(_canonical_json(payload))
         signature_b64 = base64.urlsafe_b64encode(signature).decode("ascii")
         conn.execute("""
@@ -1634,9 +1693,14 @@ async def mint_passport(ref: CalculationRef, request: Request,
     standards_mapping = None
     if get_standards_mapping_payload is not None:
         standards_mapping = get_standards_mapping_payload(passport_data)
+    digital_link = None
+    if get_digital_link_payload is not None and payload.get("gtin"):
+        digital_link = get_digital_link_payload(payload.get("gtin"), payload.get("batch_lot"), base_url=str(request.base_url))
     resp = {"status": "minted", "passport": passport_data}
     if standards_mapping:
         resp["standards_mapping"] = standards_mapping
+    if digital_link:
+        resp["digital_link"] = digital_link
     return resp
 
 
@@ -1666,6 +1730,9 @@ async def verify_passport(passport_id: str, request: Request):
     standards_mapping = None
     if get_standards_mapping_payload is not None:
         standards_mapping = get_standards_mapping_payload(passport_with_meta)
+    digital_link = None
+    if get_digital_link_payload is not None and payload.get("gtin"):
+        digital_link = get_digital_link_payload(payload.get("gtin"), payload.get("batch_lot"), base_url=str(request.base_url))
 
     resp = {
         "passport_id": passport_id,
@@ -1677,6 +1744,8 @@ async def verify_passport(passport_id: str, request: Request):
     }
     if standards_mapping:
         resp["standards_mapping"] = standards_mapping
+    if digital_link:
+        resp["digital_link"] = digital_link
     return resp
 
 
@@ -1699,6 +1768,98 @@ async def passport_standards_mapping(passport_id: str, request: Request):
     if get_standards_mapping_payload is None:
         raise HTTPException(status_code=503, detail="Standards mapping unavailable.")
     return get_standards_mapping_payload(passport_with_meta)
+
+
+@app.get("/id/01/{gtin}")
+@app.get("/id/01/{gtin}/10/{batch_lot:path}")
+async def resolve_gs1_digital_link(
+    gtin: str,
+    request: Request,
+    batch_lot: Optional[str] = None,
+):
+    """
+    GS1 Digital Link URI syntax endpoint for CHAKRA-hosted passports.
+    Locates an independently reviewed Digital Product Passport associated with the supplied GTIN.
+    """
+    if validate_gtin is None or validate_batch_lot is None:
+        raise HTTPException(status_code=503, detail="GS1 Digital Link module is unavailable.")
+
+    is_valid, norm_gtin, err = validate_gtin(gtin)
+    if not is_valid or not norm_gtin:
+        raise HTTPException(
+            status_code=400,
+            detail="Invalid GTIN format or check digit in GS1 Digital Link URI.",
+        )
+
+    clean_batch = None
+    if batch_lot is not None and batch_lot != "":
+        is_b_valid, validated_b, b_err = validate_batch_lot(batch_lot)
+        if not is_b_valid or validated_b is None:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid AI 10 Batch/Lot in GS1 Digital Link URI: {b_err}",
+            )
+        clean_batch = validated_b
+
+    try:
+        with _db() as conn:
+            rows = conn.execute("""
+                SELECT passport_id, calculation_id, payload_json, issued_at, revoked_at, revocation_reason
+                FROM passports
+                ORDER BY issued_at DESC
+            """).fetchall()
+
+            matched_passport_ids = []
+            for row in rows:
+                try:
+                    payload = json.loads(row["payload_json"])
+                    p_gtin = payload.get("gtin")
+                    if not p_gtin:
+                        continue
+                    _, p_norm_gtin, _ = validate_gtin(p_gtin)
+                    if p_norm_gtin == norm_gtin:
+                        if clean_batch is not None:
+                            p_batch = payload.get("batch_lot")
+                            if p_batch is not None and str(p_batch) == clean_batch:
+                                matched_passport_ids.append(row["passport_id"])
+                        else:
+                            matched_passport_ids.append(row["passport_id"])
+                except Exception:
+                    continue
+
+            if not matched_passport_ids:
+                raise HTTPException(
+                    status_code=404,
+                    detail="No Digital Product Passport found for the supplied GS1 identifier.",
+                )
+
+            if clean_batch is None and len(matched_passport_ids) > 1:
+                raise HTTPException(
+                    status_code=409,
+                    detail="Multiple Digital Product Passports exist for this GTIN. Supply batch/lot (AI 10) to identify a specific record.",
+                )
+
+            matched_passport_id = matched_passport_ids[0]
+            base_url = str(request.base_url).rstrip("/")
+            verify_url = f"{base_url}/api/v2/passports/{matched_passport_id}/verify"
+
+            return {
+                "status": "located",
+                "gtin": norm_gtin,
+                "batch_lot": clean_batch,
+                "passport_id": matched_passport_id,
+                "verification_url": verify_url,
+                "syntax_standard": "GS1 Digital Link URI Syntax v1.7.0",
+                "disclaimer": "GS1 Digital Link URI resolved to authoritative CHAKRA Digital Product Passport verification record.",
+            }
+    except HTTPException:
+        raise
+    except Exception:
+        logger.exception("Error during GS1 Digital Link lookup")
+        raise HTTPException(
+            status_code=500,
+            detail="An error occurred while resolving the GS1 Digital Link identifier.",
+        )
 
 
 @app.post("/api/v2/passports/{passport_id}/revoke")

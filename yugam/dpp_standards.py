@@ -3,7 +3,7 @@ OpenEPCIS-Aligned Digital Product Passport (DPP) Standards Mapping.
 
 Provides a standards-compliant JSON-LD mapping layer from CHAKRA-AI's signed
 textile Digital Product Passport records into the official OpenEPCIS DPP-Ready
-and GS1 Web Vocabulary namespaces.
+and GS1 Web Vocabulary namespaces, with additive GS1 Digital Link URI support.
 
 Official Reference Ontologies & Contexts:
   - GS1 Web Vocabulary: https://ref.gs1.org/voc/
@@ -19,6 +19,11 @@ Authoritative internal passport, Ed25519 digital signatures, and database logic 
 from datetime import datetime, timezone
 import logging
 from typing import Any, Dict, List, Optional
+
+from yugam.gs1_digital_link import (
+    validate_gtin,
+    get_digital_link_payload,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -57,6 +62,7 @@ STANDARDS_ALLOW_LIST = frozenset({
     "gs1:addressCountry",
     "gs1:value",
     "gs1:unitCode",
+    "gs1:gtin",
     # Schema.org classes & properties
     "schema:Product",
     "schema:identifier",
@@ -100,6 +106,8 @@ def map_passport_to_openepcis_jsonld(passport: Dict[str, Any]) -> Dict[str, Any]
     verification_url = passport.get("verification_url")
     revoked = passport.get("revoked", False)
     revocation_reason = passport.get("revocation_reason")
+    gtin = passport.get("gtin")
+    batch_lot = passport.get("batch_lot")
 
     # Construct JSON-LD Document using official contexts
     jsonld_doc: Dict[str, Any] = {
@@ -129,6 +137,14 @@ def map_passport_to_openepcis_jsonld(passport: Dict[str, Any]) -> Dict[str, Any]
 
     if issue_date_iso:
         jsonld_doc["schema:dateCreated"] = issue_date_iso
+
+    # Optional GS1 Identity Attributes (when genuine GTIN is supplied)
+    is_gtin_valid = False
+    norm_gtin = None
+    if gtin:
+        is_gtin_valid, norm_gtin, _ = validate_gtin(gtin)
+        if is_gtin_valid and norm_gtin:
+            jsonld_doc["gs1:gtin"] = norm_gtin
 
     # Product Net Mass / Net Weight (GS1 Standard: gs1:netWeight)
     # CHAKRA weight_kg represents textile batch mass excluding packaging
@@ -189,6 +205,12 @@ def map_passport_to_openepcis_jsonld(passport: Dict[str, Any]) -> Dict[str, Any]
         chakra_extensions["documentType"] = passport.get("document_type")
     if passport.get("claim"):
         chakra_extensions["claim"] = passport.get("claim")
+    if batch_lot and str(batch_lot).strip():
+        chakra_extensions["batchLot"] = str(batch_lot).strip()
+
+    # Additive GS1 Digital Link payload under chakra:extensions
+    if is_gtin_valid and norm_gtin:
+        chakra_extensions["gs1DigitalLink"] = get_digital_link_payload(norm_gtin, batch_lot)
 
     if chakra_extensions:
         jsonld_doc["chakra:extensions"] = chakra_extensions

@@ -196,4 +196,3 @@ def test_signing_invariance_and_verification():
     mapped = map_passport_to_openepcis_jsonld({**sample_payload, "signature": "test"})
     assert mapped["schema:identifier"] == sample_payload["passport_id"]
     assert mapped["gs1:batchNumber"] == sample_payload["calculation_id"]
-

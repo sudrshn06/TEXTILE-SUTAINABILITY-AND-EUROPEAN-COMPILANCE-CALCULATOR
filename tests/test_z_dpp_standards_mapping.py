@@ -177,7 +177,7 @@ def test_get_standards_mapping_payload_resilience():
     with patch("yugam.dpp_standards.map_passport_to_openepcis_jsonld", side_effect=RuntimeError("Simulated mapping crash")):
         safe_payload = get_standards_mapping_payload(_mock_passport_dict())
         assert safe_payload["status"] == "unavailable"
-        assert "Simulated mapping crash" in safe_payload["error"]
+        assert safe_payload["error"] == "Standards mapping is temporarily unavailable."
 
 
 def test_signing_invariance_and_verification():
@@ -196,3 +196,4 @@ def test_signing_invariance_and_verification():
     mapped = map_passport_to_openepcis_jsonld({**sample_payload, "signature": "test"})
     assert mapped["schema:identifier"] == sample_payload["passport_id"]
     assert mapped["gs1:batchNumber"] == sample_payload["calculation_id"]
+

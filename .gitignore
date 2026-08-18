@@ -1,0 +1,32 @@
+# -- Secrets / local configuration --
+.env
+.env.*
+!.env.example
+
+*.pem
+*.key
+*.p12
+*.pfx
+
+# -- Local databases / runtime data --
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite-*
+
+# -- Python --
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# -- Local agent/tooling files --
+.agents/
+
+# -- Local UI backups --
+yugam/index.before-redesign.html
+yugam/index.clean-baseline.html

@@ -1,0 +1,9 @@
+fastapi>=0.141.1,<1
+starlette>=1.6.0,<2
+uvicorn[standard]>=0.30,<1
+pydantic>=2.8,<3
+numpy>=1.26,<3
+scikit-learn>=1.5,<2
+xgboost>=2.1,<4
+argon2-cffi>=23.1,<26
+cryptography>=50.0.0,<51

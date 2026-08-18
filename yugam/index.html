@@ -1286,6 +1286,22 @@
                         <div id="dpp-fields" class="dpp-fields"></div>
                     </div>
                 </div>
+
+                <!-- Standards / OpenEPCIS Mapping Area -->
+                <div id="dpp-standards-box" class="mt-4 p-3 bg-saas-surface rounded-xl border border-saas-border text-left">
+                    <div class="flex items-center justify-between gap-2">
+                        <div>
+                            <div class="text-[11px] font-bold text-saas-sec uppercase tracking-wider">Standards Mapping</div>
+                            <div class="text-xs font-semibold text-saas-text flex items-center gap-1.5 mt-0.5">
+                                <span>OpenEPCIS Textile</span>
+                                <span class="text-[10px] px-1.5 py-0.5 rounded bg-saas-primaryBg text-saas-primary font-bold">Technical Readiness</span>
+                            </div>
+                        </div>
+                        <button id="viewJsonLdBtn" onclick="toggleJsonLdView()" class="btn-secondary text-xs px-2.5 py-1">View JSON-LD</button>
+                    </div>
+                    <div id="jsonld-viewer" class="hidden mt-3 p-2.5 bg-saas-card rounded-lg border border-saas-border font-mono text-[11px] text-saas-text max-h-48 overflow-y-auto custom-scroll whitespace-pre-wrap select-all"></div>
+                </div>
+
                 <button id="downloadPassportBtn" onclick="generatePDF()" class="w-full btn-primary glare-hover py-3 mt-4 text-sm font-semibold">Download Signed CHAKRA Record (PDF)</button>
             </div>
         </div>
@@ -2214,6 +2230,27 @@
             } catch (error) { showToast(error.message, true); }
         }
 
+        let lastStandardsMapping = null;
+
+        function toggleJsonLdView() {
+            const viewer = document.getElementById('jsonld-viewer');
+            const btn = document.getElementById('viewJsonLdBtn');
+            if (!viewer) return;
+            const isHidden = viewer.classList.contains('hidden');
+            if (isHidden) {
+                viewer.classList.remove('hidden');
+                if (btn) btn.textContent = 'Hide JSON-LD';
+                if (lastStandardsMapping) {
+                    viewer.textContent = JSON.stringify(lastStandardsMapping, null, 2);
+                } else {
+                    viewer.textContent = '// Standards representation loading...';
+                }
+            } else {
+                viewer.classList.add('hidden');
+                if (btn) btn.textContent = 'View JSON-LD';
+            }
+        }
+
         function resetIssuanceSequence(message = 'Waiting for a server-confirmed signed record.') {
             document.querySelectorAll('#issuance-sequence .issuance-step').forEach(step => step.classList.remove('is-active','is-complete','is-error'));
             document.getElementById('passportModalText').textContent = message;
@@ -2221,6 +2258,11 @@
             document.getElementById('qrcode-container').innerHTML = '';
             document.getElementById('dpp-fields').innerHTML = '';
             document.getElementById('qrScanLine').style.display = 'none';
+            const viewer = document.getElementById('jsonld-viewer');
+            if (viewer) { viewer.classList.add('hidden'); viewer.textContent = ''; }
+            const btn = document.getElementById('viewJsonLdBtn');
+            if (btn) btn.textContent = 'View JSON-LD';
+            lastStandardsMapping = null;
         }
 
         function setIssuanceStep(name, state) {
@@ -2285,6 +2327,9 @@
             new QRCode(qrContainer, { text:passport.verification_url, width:150, height:150, colorDark:'#0f172a', colorLight:'#ffffff', correctLevel:QRCode.CorrectLevel.M });
             document.getElementById('qrScanLine').style.display = REDUCED_MOTION ? 'none' : 'block';
             renderPassportFields(passport, verification);
+            if (verification.standards_mapping?.representation) {
+                lastStandardsMapping = verification.standards_mapping.representation;
+            }
             document.getElementById('dpp-ready-content').classList.add('is-ready');
             lastMintedPassport = { ...passport, revoked:!!verification.revoked };
             if (currentRunData?.calculationId === passport.calculation_id) {

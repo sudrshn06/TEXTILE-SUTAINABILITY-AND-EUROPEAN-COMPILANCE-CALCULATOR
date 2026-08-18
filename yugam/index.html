@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHAKRA-AI — Textile Sustainability Platform</title>
-    
+    <title>CHAKRA-AI â€” Textile Sustainability Platform</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -144,7 +144,7 @@
             border-color: var(--color-primary);
             box-shadow: 0 0 0 2px var(--color-primary-bg);
         }
-        
+
         .btn-primary {
             background: var(--color-primary);
             color: #ffffff;
@@ -172,7 +172,7 @@
             transform: none !important;
             box-shadow: none !important;
         }
-        
+
         .btn-secondary {
             background: var(--bg-card);
             color: var(--text-main);
@@ -223,7 +223,7 @@
             font-weight: 600 !important;
             transform: none !important;
         }
-        
+
         .glass-overlay {
             background: rgba(15, 23, 42, 0.65);
             backdrop-filter: blur(4px);
@@ -236,7 +236,7 @@
             box-shadow: var(--modal-shadow);
             border-radius: 14px;
         }
-        
+
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.97) translateY(4px); } to { opacity: 1; transform: scale(1) translateY(0); } }
         @keyframes popIn { 0% { opacity: 0; transform: translateY(8px); } 100% { opacity: 1; transform: translateY(0); } }
         .card-animate { animation: popIn 0.3s ease-out forwards; }
@@ -270,7 +270,7 @@
             margin-right: 6px;
             border: 1px solid var(--border-light);
         }
-        
+
         .diag-box {
             padding: 14px;
             border-radius: 10px;
@@ -318,7 +318,7 @@
             transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
         }
         #threat-panel.active { transform: translateX(0); }
-        
+
         .vis-tooltip {
             background-color: var(--bg-card) !important;
             border: 1px solid var(--border-light) !important;
@@ -329,7 +329,7 @@
             padding: 8px 12px !important;
             box-shadow: var(--card-shadow) !important;
         }
-        
+
         @keyframes sidebarIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         aside { animation: sidebarIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) both; }
         @keyframes scoreFlash { 0% { transform: scale(1.05); } 100% { transform: scale(1); } }
@@ -405,7 +405,7 @@
         .visual-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
         .visual-eyebrow { color: var(--color-primary); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
         .visual-meta { color: var(--text-sec); font-size: 12px; line-height: 1.45; }
-        
+
         .state-chip {
             display: inline-flex;
             align-items: center;
@@ -566,19 +566,19 @@
                 </div>
                 <div>
                     <label class="block text-xs font-semibold text-saas-sec uppercase tracking-wider mb-1">Password</label>
-                    <input type="password" id="authPassword" required maxlength="256" autocomplete="current-password" class="input-field" placeholder="••••••••••••">
+                    <input type="password" id="authPassword" required maxlength="256" autocomplete="current-password" class="input-field" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
                 </div>
                 <button id="loginBtn" type="submit" class="w-full btn-primary glare-hover mt-2 py-3 text-sm font-semibold">Sign In to Workspace</button>
             </form>
             <div class="mt-6 pt-4 border-t border-saas-border text-center">
-                <p class="text-[11px] text-saas-sec font-medium">Production Manager • Compliance Auditor • Security Admin</p>
+                <p class="text-[11px] text-saas-sec font-medium">Production Manager â€¢ Compliance Auditor â€¢ Security Admin</p>
             </div>
         </div>
     </div>
 
     <!-- Authenticated App View -->
     <div id="app-view" class="hidden min-h-screen h-screen w-full bg-saas-base flex flex-col md:flex-row overflow-hidden">
-        
+
         <!-- Sidebar Navigation -->
         <aside class="w-full md:w-64 bg-saas-card border-r border-saas-border flex flex-col py-5 px-4 z-20 shrink-0 h-full overflow-y-auto custom-scroll">
             <div class="flex items-center justify-between gap-3 mb-6 px-2">
@@ -590,7 +590,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="text-[11px] font-bold text-saas-sec uppercase tracking-wider mb-2 px-2">Workspace</div>
             <nav class="flex-1 space-y-1">
                 <div onclick="switchTab('dashboard')" id="nav-dashboard" class="sidebar-item sidebar-active">
@@ -619,11 +619,11 @@
                         <p id="sidebarRole" class="text-[11px] text-saas-sec truncate">Loading...</p>
                     </div>
                 </div>
-                
+
                 <button id="myBatchesBtn" onclick="openMyBatches()" class="hidden w-full btn-secondary text-xs py-2">My Batches</button>
                 <button id="auditorQueueBtn" onclick="openAuditorQueue()" class="hidden w-full btn-secondary text-xs py-2">Review Pending Batches</button>
                 <button id="securityAuditBtn" onclick="openSecurityAudit()" class="hidden w-full btn-secondary text-xs py-2">Security Audit Log</button>
-                
+
                 <div class="flex items-center justify-between pt-2">
                     <button id="theme-toggle-btn" onclick="toggleTheme()" class="btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5" title="Toggle color theme">
                         <svg id="themeIconLight" class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
@@ -637,7 +637,7 @@
 
         <!-- Main Workspace Area -->
         <main id="main-scroll-area" class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scroll relative">
-            
+
             <!-- View Header -->
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-5 pb-4 border-b border-saas-border">
                 <div>
@@ -648,7 +648,7 @@
                     <span class="text-saas-sec flex items-center gap-1.5 bg-saas-card px-2.5 py-1.5 rounded-lg border border-saas-border font-medium">
                         <span class="w-2 h-2 rounded-full bg-saas-primary"></span> Connected
                     </span>
-                    <button id="exportBtn" onclick="handleExportClick()" class="btn-secondary glare-hover ml-1 opacity-50 cursor-not-allowed border-dashed">🔒 Awaiting Data</button>
+                    <button id="exportBtn" onclick="handleExportClick()" class="btn-secondary glare-hover ml-1 opacity-50 cursor-not-allowed border-dashed">ðŸ”’ Awaiting Data</button>
                     <button id="optimizeBtn" onclick="runOptimizer()" class="hidden btn-primary glare-hover ml-1 bg-saas-primary text-white">Generate Action Plan</button>
                 </div>
             </div>
@@ -695,7 +695,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- 4 Top KPI Scorecards -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div class="saas-card p-5">
@@ -733,7 +733,7 @@
                             <span class="text-[11px] px-2 py-0.5 rounded bg-saas-redBg text-saas-red font-semibold">Exposure</span>
                         </div>
                         <div class="flex items-baseline gap-1.5">
-                            <h3 class="text-2xl font-display font-bold text-saas-red tracking-tight tabular-nums"><span id="top-margin-currency" class="hidden font-normal text-lg">₹</span> <span id="top-margin">Not calculated</span></h3>
+                            <h3 class="text-2xl font-display font-bold text-saas-red tracking-tight tabular-nums"><span id="top-margin-currency" class="hidden font-normal text-lg">â‚¹</span> <span id="top-margin">Not calculated</span></h3>
                         </div>
                         <p class="text-[11px] font-semibold text-saas-sec mt-2 truncate" id="top-margin-status">Add a sourced scenario to estimate exposure</p>
                     </div>
@@ -744,7 +744,7 @@
                             <span class="text-[11px] px-2 py-0.5 rounded bg-saas-primaryBg text-saas-primary font-semibold">Scenario</span>
                         </div>
                         <div class="flex items-baseline gap-1.5">
-                            <h3 class="text-2xl font-display font-bold text-saas-primary tracking-tight tabular-nums"><span id="top-revenue-currency" class="hidden font-normal text-lg">₹</span> <span id="top-revenue">Not calculated</span></h3>
+                            <h3 class="text-2xl font-display font-bold text-saas-primary tracking-tight tabular-nums"><span id="top-revenue-currency" class="hidden font-normal text-lg">â‚¹</span> <span id="top-revenue">Not calculated</span></h3>
                         </div>
                         <p class="text-[11px] font-semibold text-saas-sec mt-2 truncate" id="cctsStatus">Add a sourced target or planning scenario</p>
                     </div>
@@ -752,7 +752,7 @@
 
                 <!-- Visual Decision Support Section -->
                 <section id="decision-visuals" class="grid grid-cols-1 xl:grid-cols-2 gap-4" aria-label="Operational and model visualizations">
-                    
+
                     <article id="factory-flow-card" class="saas-card spotlight-card motion-surface p-5 flex flex-col justify-between">
                         <div class="visual-card-header">
                             <div>
@@ -827,10 +827,10 @@
 
                 <!-- Lower Layout: Charts & Inputs -->
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-                    
+
                     <!-- Left Column (8 cols): Charts & Simulation Cards -->
                     <div class="lg:col-span-7 xl:col-span-8 flex flex-col gap-5">
-                        
+
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="saas-card p-5 flex flex-col">
                                 <h3 class="text-sm font-bold text-saas-text mb-3">Stage Carbon Distribution</h3>
@@ -838,7 +838,7 @@
                                     <canvas id="sourceChart"></canvas>
                                 </div>
                             </div>
-                            
+
                             <div class="saas-card p-5 flex flex-col">
                                 <h3 class="text-sm font-bold text-saas-text mb-3">Impact &amp; Threshold Breakdown</h3>
                                 <div class="space-y-2.5 flex-1 overflow-y-auto custom-scroll pr-1" id="financial-bleed-list">
@@ -879,7 +879,7 @@
                             <div id="ccts-awareness-content" aria-live="polite">
                                 <div class="benchmark-unavailable">No CCTS scenario active. Add a sourced target or planning scenario.</div>
                             </div>
-                            <p class="text-[11px] text-saas-sec leading-relaxed mt-3">Awareness simulation only — not official compliance, CCC issuance, or guaranteed revenue/cost. BEE CCTS framework reference.</p>
+                            <p class="text-[11px] text-saas-sec leading-relaxed mt-3">Awareness simulation only â€” not official compliance, CCC issuance, or guaranteed revenue/cost. BEE CCTS framework reference.</p>
                         </div>
 
                     </div>
@@ -891,16 +891,16 @@
                                 <h3 class="text-sm font-bold text-saas-text uppercase tracking-wider">Factory Input Settings</h3>
                                 <span class="text-[11px] font-semibold text-saas-primary bg-saas-primaryBg px-2 py-0.5 rounded">LCA Parameters</span>
                             </div>
-                            
+
                             <div id="errorBanner" class="hidden mb-4 p-3 bg-saas-redBg border border-saas-red text-saas-red rounded-lg text-xs font-semibold">
                                 <div class="flex items-start gap-2">
-                                    <span class="text-base leading-none">🛑</span>
+                                    <span class="text-base leading-none">ðŸ›‘</span>
                                     <span id="errorText" class="leading-relaxed"></span>
                                 </div>
                             </div>
-                            
+
                             <div class="space-y-3 flex-1 overflow-y-auto custom-scroll pr-1 pb-2">
-                                
+
                                 <div class="grid grid-cols-2 gap-2">
                                     <div>
                                         <label class="block text-[11px] font-bold text-saas-sec uppercase mb-1">State / Grid</label>
@@ -920,10 +920,10 @@
                                 <div class="p-3 bg-saas-surface rounded-lg border border-saas-border">
                                     <label class="block text-[11px] font-bold text-saas-text uppercase tracking-wider mb-1.5"><span class="stage-badge">1</span> Raw Material</label>
                                     <select id="fiber" class="input-field" onchange="validateLivePhysics()">
-                                        <option value="1">Virgin Cotton (6.5 kg CO₂e/kg)</option>
-                                        <option value="3" selected>Recycled Cotton (rCotton, 2.0 kg CO₂e/kg)</option>
-                                        <option value="4">Virgin Polyester (9.5 kg CO₂e/kg)</option>
-                                        <option value="5">Recycled Polyester (rPET, 3.0 kg CO₂e/kg)</option>
+                                        <option value="1">Virgin Cotton (6.5 kg COâ‚‚e/kg)</option>
+                                        <option value="3" selected>Recycled Cotton (rCotton, 2.0 kg COâ‚‚e/kg)</option>
+                                        <option value="4">Virgin Polyester (9.5 kg COâ‚‚e/kg)</option>
+                                        <option value="5">Recycled Polyester (rPET, 3.0 kg COâ‚‚e/kg)</option>
                                     </select>
                                 </div>
 
@@ -982,11 +982,11 @@
                                 <details class="p-3 bg-saas-card rounded-lg border border-saas-border">
                                     <summary class="text-xs font-bold text-saas-text uppercase tracking-wider cursor-pointer flex items-center justify-between">
                                         <span>Thermal Heat (Optional)</span>
-                                        <span class="text-saas-sec text-xs">▼</span>
+                                        <span class="text-saas-sec text-xs">â–¼</span>
                                     </summary>
                                     <div class="space-y-2 mt-3 pt-2 border-t border-saas-border">
                                         <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Thermal Heat (kWh_th)</label><input type="number" id="wet_heat" min="0" step="0.01" class="input-field tabular-nums" placeholder="Optional"></div>
-                                        <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Heat Factor (kg CO₂e/kWh_th)</label><input type="number" id="wet_heat_factor" min="0" max="2" step="0.0001" class="input-field tabular-nums" placeholder="Required if heat is entered"></div>
+                                        <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Heat Factor (kg COâ‚‚e/kWh_th)</label><input type="number" id="wet_heat_factor" min="0" max="2" step="0.0001" class="input-field tabular-nums" placeholder="Required if heat is entered"></div>
                                         <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Heat Factor Source</label><input type="text" id="wet_heat_source" maxlength="300" class="input-field" placeholder="Fuel invoice, supplier factor"></div>
                                     </div>
                                 </details>
@@ -994,29 +994,41 @@
                                 <details class="p-3 bg-saas-card rounded-lg border border-saas-border">
                                     <summary class="text-xs font-bold text-saas-text uppercase tracking-wider cursor-pointer flex items-center justify-between">
                                         <span>Reference Benchmark Scenario</span>
-                                        <span class="text-saas-sec text-xs">▼</span>
+                                        <span class="text-saas-sec text-xs">â–¼</span>
                                     </summary>
                                     <div class="space-y-2 mt-3 pt-2 border-t border-saas-border">
-                                        <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Reference Intensity (kg CO₂e/kg)</label><input type="number" id="buyer_benchmark" min="0.001" step="0.001" class="input-field tabular-nums" placeholder="e.g. 4.5"></div>
+                                        <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Reference Intensity (kg COâ‚‚e/kg)</label><input type="number" id="buyer_benchmark" min="0.001" step="0.001" class="input-field tabular-nums" placeholder="e.g. 4.5"></div>
                                         <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Reference Source / Version</label><input type="text" id="buyer_benchmark_source" maxlength="300" class="input-field" placeholder="Required: contract, document, URL"></div>
-                                        <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Scenario Price (₹/tCO₂e)</label><input type="number" id="carbon_price" min="0" step="0.01" class="input-field tabular-nums" placeholder="Optional market price"></div>
+                                        <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Scenario Price (â‚¹/tCOâ‚‚e)</label><input type="number" id="carbon_price" min="0" step="0.01" class="input-field tabular-nums" placeholder="Optional market price"></div>
                                     </div>
                                 </details>
 
                                 <details class="p-3 bg-saas-card rounded-lg border border-saas-border">
                                     <summary class="text-xs font-bold text-saas-text uppercase tracking-wider cursor-pointer flex items-center justify-between">
                                         <span>CCTS Awareness Simulator Scenario</span>
-                                        <span class="text-saas-sec text-xs">▼</span>
+                                        <span class="text-saas-sec text-xs">â–¼</span>
                                     </summary>
                                     <div class="space-y-2 mt-3 pt-2 border-t border-saas-border">
-                                        <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Scenario Target Intensity (kg CO₂e/kg)</label><input type="number" id="ccts_target" min="0.001" step="0.001" class="input-field tabular-nums" placeholder="e.g. 5.0"></div>
+                                        <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Scenario Target Intensity (kg COâ‚‚e/kg)</label><input type="number" id="ccts_target" min="0.001" step="0.001" class="input-field tabular-nums" placeholder="e.g. 5.0"></div>
                                         <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Target / Notification Source</label><input type="text" id="ccts_target_source" maxlength="300" class="input-field" placeholder="Required: facility target source"></div>
-                                        <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Illustrative CCC Price (₹/tCO₂e)</label><input type="number" id="ccts_price" min="0" step="0.01" class="input-field tabular-nums" placeholder="Optional CCC price"></div>
+                                        <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Illustrative CCC Price (â‚¹/tCOâ‚‚e)</label><input type="number" id="ccts_price" min="0" step="0.01" class="input-field tabular-nums" placeholder="Optional CCC price"></div>
+                                    </div>
+                                </details>
+
+                                <details class="p-3 bg-saas-card rounded-lg border border-saas-border">
+                                    <summary class="text-xs font-bold text-saas-text uppercase tracking-wider cursor-pointer flex items-center justify-between">
+                                        <span>GS1 Product Identity (Optional)</span>
+                                        <span class="text-saas-sec text-xs">â–¼</span>
+                                    </summary>
+                                    <div class="space-y-2 mt-3 pt-2 border-t border-saas-border">
+                                        <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">GTIN (8, 12, 13, or 14 digits)</label><input type="text" id="gtin_input" maxlength="14" class="input-field font-mono" placeholder="e.g. 09520123456788"></div>
+                                        <div><label class="block text-[11px] font-semibold text-saas-sec mb-1">Batch / Lot Number</label><input type="text" id="batch_lot_input" maxlength="20" class="input-field font-mono" placeholder="e.g. LOT-2025-08-TN"></div>
+                                        <p class="text-[10px] text-saas-sec italic">Enables additive GS1 Digital Link URI generation for standards-aligned DPP resolution.</p>
                                     </div>
                                 </details>
 
                             </div>
-                            
+
                             <button id="calcBtn" onclick="runCalculationAnimation()" class="w-full btn-primary glare-hover mt-3 py-3 text-sm font-semibold">
                                 Calculate Factory Data
                             </button>
@@ -1028,7 +1040,7 @@
 
             <!-- Tab 2: Bulk Supplier Pre-Screen -->
             <div id="view-batch" class="hidden space-y-6">
-                
+
                 <div class="saas-card p-8 border-dashed border-2 border-saas-border bg-saas-surface flex flex-col items-center justify-center min-h-[260px] text-center" id="uploadPrompt">
                     <div class="w-12 h-12 rounded-xl bg-saas-card border border-saas-border flex items-center justify-center mb-3">
                         <svg class="w-6 h-6 text-saas-sec" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
@@ -1044,17 +1056,17 @@
 
                 <div id="batchLeaderboard" class="hidden grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div class="saas-card p-4 border-l-4 border-l-saas-primary">
-                        <p class="text-[11px] font-bold text-saas-sec uppercase tracking-wider mb-1">🏆 Top Performer</p>
+                        <p class="text-[11px] font-bold text-saas-sec uppercase tracking-wider mb-1">ðŸ† Top Performer</p>
                         <h4 id="lead-best-name" class="text-sm font-bold text-saas-text truncate">--</h4>
                         <p class="text-xs font-bold text-saas-primary mt-1">Score: <span id="lead-best-score" class="font-mono">--</span></p>
                     </div>
                     <div class="saas-card p-4 border-l-4 border-l-saas-red">
-                        <p class="text-[11px] font-bold text-saas-sec uppercase tracking-wider mb-1">⚠️ Critical Risk</p>
+                        <p class="text-[11px] font-bold text-saas-sec uppercase tracking-wider mb-1">âš ï¸ Critical Risk</p>
                         <h4 id="lead-worst-name" class="text-sm font-bold text-saas-text truncate">--</h4>
                         <p class="text-xs font-bold text-saas-red mt-1">Highest Carbon Intensity: <span id="lead-worst-tax" class="font-mono">--</span></p>
                     </div>
                     <div class="saas-card p-4 border-l-4 border-l-saas-blue">
-                        <p class="text-[11px] font-bold text-saas-sec uppercase tracking-wider mb-1">🌍 Portfolio Health</p>
+                        <p class="text-[11px] font-bold text-saas-sec uppercase tracking-wider mb-1">ðŸŒ Portfolio Health</p>
                         <h4 class="text-xl font-bold text-saas-text mt-1"><span id="lead-health-pct" class="font-mono">--</span>%</h4>
                         <p class="text-xs text-saas-sec">Screening Health</p>
                     </div>
@@ -1130,9 +1142,9 @@
                     <h3 class="text-base font-bold text-saas-text">Calculated Stage-Intensity Map</h3>
                     <p class="text-[11px] text-saas-sec mt-0.5 max-w-sm">Uses this batch calculation only. Supplier names are neutral stage labels, not live vendor identities or verified chain-of-custody data.</p>
                 </div>
-                
+
                 <div id="network-container" role="img" aria-label="Fixed six-stage batch process evidence flowchart. Select a stage for details."></div>
-                
+
                 <div id="threat-panel" class="saas-card bg-saas-card p-5 border-l-4 border-l-saas-primary shadow-xl overflow-y-auto custom-scroll">
                     <div class="flex justify-between items-start mb-4">
                         <div>
@@ -1152,7 +1164,7 @@
                         </div>
                         <div class="pt-3 border-t border-saas-border" id="panel-alert-box">
                             <p class="text-[11px] text-saas-sec font-bold uppercase tracking-wider mb-1">Batch Accumulated Intensity</p>
-                            <p class="text-2xl font-bold text-saas-text font-mono"><span id="panel-total-carbon">0.00</span> <span class="text-xs font-normal text-saas-sec">kg CO₂e/kg</span></p>
+                            <p class="text-2xl font-bold text-saas-text font-mono"><span id="panel-total-carbon">0.00</span> <span class="text-xs font-normal text-saas-sec">kg COâ‚‚e/kg</span></p>
                             <p class="text-xs mt-2 font-medium leading-relaxed" id="panel-message"></p>
                         </div>
                     </div>
@@ -1165,14 +1177,14 @@
     <!-- Governance Modal 1: Optimizer & Action Plan -->
     <div id="optimizer-modal" class="fixed inset-0 z-[60] hidden glass-overlay flex items-center justify-center p-4">
         <div class="modal-content p-6 sm:p-7 w-full max-w-2xl max-h-[90vh] overflow-y-auto custom-scroll relative">
-            <button onclick="closeOptimizer()" class="absolute top-4 right-4 text-saas-sec hover:text-saas-text w-8 h-8 flex items-center justify-center rounded-lg hover:bg-saas-surface transition">✕</button>
+            <button onclick="closeOptimizer()" class="absolute top-4 right-4 text-saas-sec hover:text-saas-text w-8 h-8 flex items-center justify-center rounded-lg hover:bg-saas-surface transition">âœ•</button>
             <div class="flex items-center gap-3 mb-4 pb-3 border-b border-saas-border">
                 <div class="bg-saas-primaryBg p-2 rounded-lg text-saas-primary border border-saas-primary"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
                 <div><h3 class="text-base font-bold text-saas-text">Step-by-Step Action Plan</h3><p id="opt-strategy-text" class="text-[11px] font-bold text-saas-primary uppercase tracking-wider">How to fix your factory</p></div>
             </div>
-            
+
             <div class="bg-saas-surface border border-saas-border p-4 rounded-lg mb-4 text-xs text-saas-text leading-relaxed font-medium" id="opt-plan-details"></div>
-            
+
             <div class="bg-saas-card border border-saas-primary p-4 rounded-lg">
                 <h4 class="text-xs font-bold text-saas-text uppercase tracking-wider mb-3 border-b border-saas-border pb-2">Prioritized Corrective Action Output</h4>
                 <div class="grid grid-cols-2 gap-3">
@@ -1197,7 +1209,7 @@
     <!-- Governance Modal 2: Supplier Detail / XAI -->
     <div id="xai-modal" class="fixed inset-0 z-[50] hidden glass-overlay flex items-center justify-center p-4">
         <div class="modal-content p-6 sm:p-7 w-full max-w-2xl max-h-[90vh] overflow-y-auto custom-scroll relative">
-            <button onclick="closeXAI()" class="absolute top-4 right-4 text-saas-sec hover:text-saas-text w-8 h-8 flex items-center justify-center rounded-lg hover:bg-saas-surface transition">✕</button>
+            <button onclick="closeXAI()" class="absolute top-4 right-4 text-saas-sec hover:text-saas-text w-8 h-8 flex items-center justify-center rounded-lg hover:bg-saas-surface transition">âœ•</button>
             <div class="flex items-center gap-3 mb-4 pb-3 border-b border-saas-border">
                 <div class="bg-saas-primaryBg border border-saas-border p-2 rounded-lg text-saas-primary"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
                 <div><h3 class="text-base font-bold text-saas-text">Supplier Review</h3></div>
@@ -1215,7 +1227,7 @@
     <!-- Governance Modal 3: Auditor Review Queue -->
     <div id="auditor-modal" class="fixed inset-0 z-[65] hidden glass-overlay flex items-center justify-center p-4">
         <div class="modal-content p-6 sm:p-7 w-full max-w-2xl max-h-[85vh] overflow-y-auto custom-scroll relative">
-            <button onclick="closeAuditorQueue()" class="absolute top-4 right-4 text-saas-sec hover:text-saas-text w-8 h-8 flex items-center justify-center rounded-lg hover:bg-saas-surface transition">✕</button>
+            <button onclick="closeAuditorQueue()" class="absolute top-4 right-4 text-saas-sec hover:text-saas-text w-8 h-8 flex items-center justify-center rounded-lg hover:bg-saas-surface transition">âœ•</button>
             <div class="flex items-center justify-between pb-3 mb-4 border-b border-saas-border">
                 <div>
                     <h3 class="text-base font-bold text-saas-text">Independent Review Queue</h3>
@@ -1229,13 +1241,13 @@
     <!-- Governance Modal 4: Security Audit Log -->
     <div id="security-audit-modal" class="fixed inset-0 z-[65] hidden glass-overlay flex items-center justify-center p-4">
         <div class="modal-content p-6 sm:p-7 w-full max-w-3xl max-h-[85vh] overflow-y-auto custom-scroll relative">
-            <button onclick="closeSecurityAudit()" class="absolute top-4 right-4 text-saas-sec hover:text-saas-text w-8 h-8 flex items-center justify-center rounded-lg hover:bg-saas-surface transition">✕</button>
+            <button onclick="closeSecurityAudit()" class="absolute top-4 right-4 text-saas-sec hover:text-saas-text w-8 h-8 flex items-center justify-center rounded-lg hover:bg-saas-surface transition">âœ•</button>
             <div class="flex items-center justify-between pb-3 mb-4 border-b border-saas-border pr-8">
                 <div>
                     <h3 class="text-base font-bold text-saas-text">Security Audit Log</h3>
                     <p class="text-xs text-saas-sec mt-0.5">Last 100 security and workflow events. Network addresses are stored only as hashes.</p>
                 </div>
-                <button onclick="loadSecurityAudit(true)" class="btn-secondary text-xs px-3 py-1.5">↻ Refresh</button>
+                <button onclick="loadSecurityAudit(true)" class="btn-secondary text-xs px-3 py-1.5">â†» Refresh</button>
             </div>
             <div id="securityAuditList" class="space-y-2"></div>
         </div>
@@ -1244,13 +1256,13 @@
     <!-- Governance Modal 5: My Submitted Batches -->
     <div id="my-batches-modal" class="fixed inset-0 z-[66] hidden glass-overlay flex items-center justify-center p-4">
         <div class="modal-content p-6 sm:p-7 w-full max-w-3xl max-h-[85vh] overflow-y-auto custom-scroll relative">
-            <button onclick="closeMyBatches()" class="absolute top-4 right-4 text-saas-sec hover:text-saas-text w-8 h-8 flex items-center justify-center rounded-lg hover:bg-saas-surface transition">✕</button>
+            <button onclick="closeMyBatches()" class="absolute top-4 right-4 text-saas-sec hover:text-saas-text w-8 h-8 flex items-center justify-center rounded-lg hover:bg-saas-surface transition">âœ•</button>
             <div class="flex items-center justify-between pb-3 mb-4 border-b border-saas-border pr-8">
                 <div>
                     <h3 class="text-base font-bold text-saas-text">My Submitted Batches</h3>
                     <p class="text-xs text-saas-sec mt-0.5">Persisted calculations and review states</p>
                 </div>
-                <button onclick="loadMyBatches(true, false)" class="btn-secondary text-xs px-3 py-1.5">↻ Refresh</button>
+                <button onclick="loadMyBatches(true, false)" class="btn-secondary text-xs px-3 py-1.5">â†» Refresh</button>
             </div>
             <div id="myBatchesList" class="space-y-3"></div>
         </div>
@@ -1259,7 +1271,7 @@
     <!-- Governance Modal 6: Digital Product Passport QR & Verification -->
     <div id="qr-modal" class="fixed inset-0 z-[70] hidden glass-overlay flex items-center justify-center p-4">
         <div class="modal-content p-6 sm:p-8 w-full max-w-2xl max-h-[92vh] overflow-y-auto custom-scroll relative text-center border border-saas-border shadow-2xl">
-            <button onclick="closeQRModal()" class="absolute top-4 right-4 text-saas-sec hover:text-saas-text w-8 h-8 flex items-center justify-center rounded-lg hover:bg-saas-surface transition">✕</button>
+            <button onclick="closeQRModal()" class="absolute top-4 right-4 text-saas-sec hover:text-saas-text w-8 h-8 flex items-center justify-center rounded-lg hover:bg-saas-surface transition">âœ•</button>
 
             <!-- Certificate Header Banner -->
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-saas-primaryBg border border-saas-primary text-saas-primary text-[11px] font-bold tracking-wider uppercase mb-2">
@@ -1300,6 +1312,34 @@
                         <button id="viewJsonLdBtn" onclick="toggleJsonLdView()" class="btn-secondary text-xs px-2.5 py-1">View JSON-LD</button>
                     </div>
                     <div id="jsonld-viewer" class="hidden mt-3 p-2.5 bg-saas-card rounded-lg border border-saas-border font-mono text-[11px] text-saas-text max-h-48 overflow-y-auto custom-scroll whitespace-pre-wrap select-all"></div>
+                </div>
+
+                <!-- GS1 Digital Link Area -->
+                <div id="dpp-digital-link-box" class="mt-3 p-3 bg-saas-surface rounded-xl border border-saas-border text-left">
+                    <div class="flex items-center justify-between gap-2">
+                        <div>
+                            <div class="text-[11px] font-bold text-saas-sec uppercase tracking-wider">GS1 Digital Link</div>
+                            <div class="text-xs font-semibold text-saas-text flex items-center gap-1.5 mt-0.5">
+                                <span id="gs1-link-status-title">GS1 Digital Link URI</span>
+                                <span id="gs1-link-badge" class="text-[10px] px-1.5 py-0.5 rounded bg-saas-primaryBg text-saas-primary font-bold">GS1 Digital Link Ready</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="gs1-link-content" class="mt-2.5 text-xs">
+                        <div id="gs1-link-available" class="hidden space-y-1.5">
+                            <div class="flex justify-between items-center text-[11px] text-saas-sec">
+                                <span>GTIN (AI 01): <strong id="gs1-gtin-val" class="font-mono text-saas-text">--</strong></span>
+                                <span id="gs1-batch-wrap" class="hidden">Batch (AI 10): <strong id="gs1-batch-val" class="font-mono text-saas-text">--</strong></span>
+                            </div>
+                            <div class="p-2 bg-saas-card rounded-lg border border-saas-border flex items-center justify-between gap-2">
+                                <span id="gs1-uri-text" class="font-mono text-[11px] text-saas-primary truncate select-all">--</span>
+                                <button id="copyGs1Btn" onclick="copyGs1Uri()" class="btn-secondary text-[10px] px-2 py-0.5 shrink-0">Copy</button>
+                            </div>
+                        </div>
+                        <div id="gs1-link-empty" class="text-saas-sec text-[11px] italic">
+                            GS1 Digital Link unavailable - no verified GTIN supplied.
+                        </div>
+                    </div>
                 </div>
 
                 <button id="downloadPassportBtn" onclick="generatePDF()" class="w-full btn-primary glare-hover py-3 mt-4 text-sm font-semibold">Download Signed CHAKRA Record (PDF)</button>
@@ -1434,7 +1474,7 @@
             const name = safePlainText(user.name, 80);
             document.getElementById('sidebarInitials').innerText = name.substring(0,2).toUpperCase() || '--';
             document.getElementById('sidebarName').innerText = name;
-            document.getElementById('sidebarRole').innerText = `${safePlainText(user.role, 40)} • ${safePlainText(user.factory, 70)}`;
+            document.getElementById('sidebarRole').innerText = `${safePlainText(user.role, 40)} â€¢ ${safePlainText(user.factory, 70)}`;
             document.getElementById('login-view').classList.add('hidden');
             document.getElementById('app-view').classList.remove('hidden');
             const isAuditor = user.role === 'Compliance Auditor';
@@ -1478,20 +1518,20 @@
             if(breakdownChart) { breakdownChart.update(); }
             if(suratTrendChart) { suratTrendChart.options.scales.y.grid.color = gridColor; suratTrendChart.options.scales.y1.grid.color = gridColor; suratTrendChart.update(); }
             if(comparisonChart) { comparisonChart.options.scales.y.grid.color = gridColor; comparisonChart.options.scales.x.ticks.color = fontColor; comparisonChart.options.scales.y.ticks.color = fontColor; comparisonChart.update(); }
-            if(currentRunData) updateScope3Network(); 
+            if(currentRunData) updateScope3Network();
         }
 
         Chart.defaults.font.family = "'Inter', sans-serif";
         Chart.defaults.elements.bar.borderRadius = 6;
-        
+
         const STATE_DATA = { "Tamil Nadu": {grid: 0.56, waterRiskMultiplier: 1.5, lat: 11.1271, lng: 78.6569}, "Gujarat": {grid: 0.72, waterRiskMultiplier: 1.5, lat: 22.2587, lng: 71.1924}, "Maharashtra": {grid: 0.78, waterRiskMultiplier: 1.2, lat: 19.7515, lng: 75.7139}, "Punjab": {grid: 0.83, waterRiskMultiplier: 1.6, lat: 30.9009, lng: 75.8572} };
         const FIBER_DATA = { 1: { name: "Virgin Cotton", co2: 6.5 }, 3: { name: "Recycled Cotton", co2: 2.0 }, 4: { name: "Virgin Polyester", co2: 9.5 }, 5: { name: "Recycled Polyester", co2: 3.0 } };
-        
-        let waterMap = null, mapMarker = null, benchmarkChart = null, breakdownChart = null, suratTrendChart = null, comparisonChart = null, currentRunData = null, batchDataStore = []; 
+
+        let waterMap = null, mapMarker = null, benchmarkChart = null, breakdownChart = null, suratTrendChart = null, comparisonChart = null, currentRunData = null, batchDataStore = [];
 
         function initMap() {
             try {
-                if (waterMap) return; 
+                if (waterMap) return;
                 if (!document.getElementById('map')) return;
                 waterMap = L.map('map', {zoomControl: false}).setView([20.5937, 78.9629], 4);
                 L.tileLayer(document.documentElement.classList.contains('dark') ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png' : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(waterMap);
@@ -1507,24 +1547,24 @@
                 }
             });
 
-            document.getElementById('nav-dashboard').classList.remove('sidebar-active'); 
-            document.getElementById('nav-batch').classList.remove('sidebar-active'); 
-            document.getElementById('nav-surat').classList.remove('sidebar-active'); 
-            document.getElementById('nav-scope3').classList.remove('sidebar-active'); 
-            
+            document.getElementById('nav-dashboard').classList.remove('sidebar-active');
+            document.getElementById('nav-batch').classList.remove('sidebar-active');
+            document.getElementById('nav-surat').classList.remove('sidebar-active');
+            document.getElementById('nav-scope3').classList.remove('sidebar-active');
+
             const activeNav = document.getElementById(`nav-${tabId}`);
-            if (activeNav) activeNav.classList.add('sidebar-active'); 
-            
+            if (activeNav) activeNav.classList.add('sidebar-active');
+
             const view = document.getElementById(`view-${tabId}`);
             if (view) {
-                view.classList.remove('hidden'); 
+                view.classList.remove('hidden');
                 if(tabId === 'scope3') {
                     view.classList.add('flex');
                 } else {
                     view.classList.add('block');
                 }
             }
-            
+
             const titles = { 'dashboard': 'Factory Carbon & Evidence Report', 'batch': 'Bulk Supplier Pre-Screen', 'surat': 'City-Wide Pollution Data', 'scope3': 'Supply Chain Risk Map' };
             document.getElementById('viewTitle').innerText = titles[tabId];
 
@@ -1570,7 +1610,7 @@
             const toast = document.createElement('div');
             toast.className = `saas-card p-3.5 flex items-start gap-2.5 toast-anim border-l-4 shadow-lg pointer-events-auto max-w-sm ${isError ? 'border-l-[var(--color-red)] bg-saas-redBg' : 'border-l-[var(--color-primary)] bg-saas-primaryBg'}`;
             const icon = document.createElement('span');
-            icon.className = 'text-base leading-none mt-0.5 shrink-0'; icon.textContent = isError ? '🛑' : '✓';
+            icon.className = 'text-base leading-none mt-0.5 shrink-0'; icon.textContent = isError ? 'ðŸ›‘' : 'âœ“';
             const text = document.createElement('span');
             text.className = 'font-semibold text-saas-text text-xs tracking-tight leading-relaxed';
             text.textContent = String(msg).replace(/<[^>]*>/g, '');
@@ -1582,16 +1622,16 @@
             const banner = document.getElementById('errorBanner');
             document.getElementById('errorText').innerHTML = msg;
             banner.classList.remove('hidden');
-            
+
             const dashboard = document.getElementById('main-scroll-area');
             if (dashboard) dashboard.scrollTo({ top: 0, behavior: 'smooth' });
-            
+
             showToast("Data-integrity anomaly blocked.", true);
 
             const exportBtn = document.getElementById('exportBtn');
             if(exportBtn) {
                 exportBtn.disabled = true;
-                exportBtn.innerHTML = `🚫 Review Blocked (Data Integrity)`;
+                exportBtn.innerHTML = `ðŸš« Review Blocked (Data Integrity)`;
                 exportBtn.className = `btn-secondary ml-2 cursor-not-allowed border-saas-red text-saas-red bg-saas-redBg`;
                 isFactoryPassing = false;
             }
@@ -1654,7 +1694,7 @@
                 result.textContent = '';
                 result.append('Priority Stage: ');
                 const strong = document.createElement('strong'); strong.textContent = priority || 'Unavailable'; result.appendChild(strong);
-                if (Number.isFinite(Number(aiDecision.stage_confidence))) result.append(` • ${(Number(aiDecision.stage_confidence) * 100).toFixed(1)}% model confidence`);
+                if (Number.isFinite(Number(aiDecision.stage_confidence))) result.append(` â€¢ ${(Number(aiDecision.stage_confidence) * 100).toFixed(1)}% model confidence`);
             }, 1100);
         }
 
@@ -1673,7 +1713,7 @@
                 const isFailed = failed.has(stage);
                 const row = document.createElement('div');
                 row.className = `analysis-row${isPriority ? ' is-priority' : ''}${isFailed ? ' is-failed' : ''}`;
-                
+
                 const nameCol = document.createElement('div');
                 nameCol.className = 'flex items-center gap-2';
                 if (isPriority) {
@@ -1686,23 +1726,23 @@
                 name.className = 'analysis-row-name';
                 name.textContent = stage;
                 nameCol.appendChild(name);
-                
+
                 const probability = document.createElement('span');
                 probability.className = 'analysis-probability font-mono';
                 probability.textContent = Number.isFinite(Number(probabilities[stage])) ? `Weight ${(Number(probabilities[stage]) * 100).toFixed(1)}%` : 'Weight unavailable';
-                
+
                 const mark = document.createElement('span');
                 mark.className = 'analysis-mark';
                 mark.textContent = isFailed ? 'REVIEW REQUIRED' : 'SCREENED';
-                
+
                 row.append(nameCol, probability, mark);
                 container.appendChild(row);
             });
             scheduleVisual(() => {
                 const result = document.getElementById('xgb-priority-result'); result.textContent = '';
                 result.append('Priority Stage: '); const strong = document.createElement('strong'); strong.textContent = aiDecision.priority_stage || 'Unavailable'; result.appendChild(strong);
-                const ranking = (aiDecision.top_stage_ranking || []).join(' → ');
-                if (ranking) result.append(` • Top 3: ${ranking}`);
+                const ranking = (aiDecision.top_stage_ranking || []).join(' â†’ ');
+                if (ranking) result.append(` â€¢ Top 3: ${ranking}`);
             }, 600);
 
             const shapContainer = document.getElementById('xgb-shap-explanation');
@@ -1773,7 +1813,7 @@
             const status = failed ? 'NEEDS ATTENTION' : 'PASS';
             container.innerHTML = `
                 <div class="benchmark-summary">
-                    <div><div class="visual-meta">Factory Result</div><div class="text-sm font-bold text-saas-text tabular-nums">${current.toFixed(3)} kg CO2e/kg</div><div class="visual-meta mt-0.5">Reference ${reference.toFixed(3)} • ${escapeHtml(buyerBenchmark.source || 'Sourced scenario', 120)}</div></div>
+                    <div><div class="visual-meta">Factory Result</div><div class="text-sm font-bold text-saas-text tabular-nums">${current.toFixed(3)} kg CO2e/kg</div><div class="visual-meta mt-0.5">Reference ${reference.toFixed(3)} â€¢ ${escapeHtml(buyerBenchmark.source || 'Sourced scenario', 120)}</div></div>
                     <span class="state-chip ${failed ? 'is-fail' : 'is-pass'}">${status}</span>
                 </div>
                 <div class="benchmark-track"><div class="benchmark-factory-fill${failed ? ' is-fail' : ''}"></div><div class="benchmark-reference" style="left:${referencePct.toFixed(2)}%"></div></div>
@@ -1816,8 +1856,8 @@
                 <div class="ccts-awareness-result ${isSurplus ? 'is-surplus' : isShortfall ? 'is-shortfall' : ''}">
                     <div class="visual-meta font-bold">${positionLabel}</div>
                     <div class="text-sm font-bold text-saas-text mt-0.5 font-mono">${certificateAmount.toFixed(4)} tCO2e / CCC-equivalent</div>
-                    <div class="text-xs text-saas-sec mt-1">${financialKind}: <strong class="text-saas-text font-mono">${priceProvided ? `₹ ${financialAmount.toLocaleString('en-IN', {maximumFractionDigits:2})}` : 'Not calculated - add a sourced scenario price'}</strong></div>
-                    <div class="text-[11px] text-saas-sec mt-0.5">${priceProvided ? `Scenario price: ₹ ${price.toLocaleString('en-IN', {maximumFractionDigits:2})}/tCO2e` : 'No market price is assumed.'}</div>
+                    <div class="text-xs text-saas-sec mt-1">${financialKind}: <strong class="text-saas-text font-mono">${priceProvided ? `â‚¹ ${financialAmount.toLocaleString('en-IN', {maximumFractionDigits:2})}` : 'Not calculated - add a sourced scenario price'}</strong></div>
+                    <div class="text-[11px] text-saas-sec mt-0.5">${priceProvided ? `Scenario price: â‚¹ ${price.toLocaleString('en-IN', {maximumFractionDigits:2})}/tCO2e` : 'No market price is assumed.'}</div>
                 </div>
                 <div class="ccts-awareness-source"><strong>Target source:</strong> ${escapeHtml(cctsScenario.target_source || 'Unavailable', 260)}<br><strong>Method:</strong> achieved-versus-target intensity difference multiplied by production, shown for awareness only.</div>`;
         }
@@ -1841,7 +1881,7 @@
                 ['Grid Power Provenance', energyRecorded ? safePlainText(provenance.electricity.source, 90) : 'Energy factor provenance unavailable', energyRecorded],
                 ['Chemical Input Audit', chemicalVerified ? 'User-verified process factor recorded' : 'Screening reference only; supplier/process evidence recommended', chemicalVerified],
                 ['Product-Specific Rules', productRulesVerified ? 'Verified by backend record' : 'Not verified by the backend record', productRulesVerified],
-                ['LCA Data Quality Grade', `Backend grade ${grade}${integrityRisk ? ' • integrity anomalies recorded' : ''}`, !integrityRisk && grade !== 'C'],
+                ['LCA Data Quality Grade', `Backend grade ${grade}${integrityRisk ? ' â€¢ integrity anomalies recorded' : ''}`, !integrityRisk && grade !== 'C'],
             ];
             const list = document.getElementById('evidence-list'); list.innerHTML = '';
             rows.forEach((item) => {
@@ -1851,7 +1891,7 @@
                 statusBadge.className = `px-1.5 py-0.5 rounded text-[10px] font-bold ${item[2] ? 'bg-saas-primaryBg text-saas-primary border border-saas-primary' : 'bg-saas-orangeBg text-saas-orange border border-saas-orange'}`;
                 statusBadge.textContent = item[2] ? 'VERIFIED' : 'ACTION';
                 name.append(statusBadge, document.createTextNode(` ${item[0]}`));
-                
+
                 const note = document.createElement('span'); note.className = 'evidence-row-note'; note.textContent = item[1];
                 row.append(name, note); list.appendChild(row);
             });
@@ -1876,7 +1916,7 @@
                 step.classList.toggle('is-complete', number <= completed);
                 step.classList.toggle('is-current', number === current && number > completed);
                 const dot = step.querySelector('.workflow-dot');
-                if (dot) dot.textContent = number <= completed ? '✓' : String(number);
+                if (dot) dot.textContent = number <= completed ? 'âœ“' : String(number);
             });
         }
 
@@ -1916,8 +1956,8 @@
         }
 
         async function runCalculationAnimation() {
-            document.getElementById('errorBanner').classList.add('hidden'); 
-            const btn = document.getElementById('calcBtn'); 
+            document.getElementById('errorBanner').classList.add('hidden');
+            const btn = document.getElementById('calcBtn');
 
             const w = parseFloat(document.getElementById('weight').value);
             const spin = parseFloat(document.getElementById('spin_power').value) || 0;
@@ -1992,7 +2032,7 @@
             btn.disabled = true;
             setDecisionVisualsLoading();
             btn.innerHTML = `Calculating...`;
-            
+
             const exportBtn = document.getElementById('exportBtn');
             exportBtn.disabled = true;
             exportBtn.innerHTML = `Calculating...`;
@@ -2012,6 +2052,11 @@
                     waste_kg: inputs.sew_waste,
                     packaging_kg: inputs.pack_kg
                 };
+                const gtinVal = document.getElementById('gtin_input')?.value.trim();
+                const batchVal = document.getElementById('batch_lot_input')?.value.trim();
+                if (gtinVal) payload.gtin = gtinVal;
+                if (batchVal) payload.batch_lot = batchVal;
+
                 if (hasFinancialScenario) {
                     payload.buyer_benchmark_kgco2e_per_kg = buyerBenchmark;
                     payload.buyer_benchmark_source = buyerSource;
@@ -2047,7 +2092,7 @@
                 showToast(error.message || "Secure backend unavailable. Calculation was not performed.", true);
                 const exportBtn = document.getElementById('exportBtn');
                 exportBtn.disabled = true;
-                exportBtn.innerHTML = `🔒 No Verified Calculation`;
+                exportBtn.innerHTML = `ðŸ”’ No Verified Calculation`;
                 exportBtn.className = `btn-secondary ml-2 opacity-50 cursor-not-allowed border-dashed`;
             } finally {
                 btn.disabled = false;
@@ -2070,7 +2115,7 @@
                 colors[0] = buyerBenchmark.pass ? '#059669' : '#dc2626';
                 colors.push('#94a3b8');
             }
-            
+
             comparisonChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -2109,9 +2154,9 @@
 
             animateElementValue(document.getElementById("top-score"), 0, score, 800, true);
             animateElementValue(document.getElementById("top-carbon"), 0, carbonTotal, 800, false);
-            document.getElementById('top-intensity').innerText = `${co2_int.toFixed(2)} kg CO₂e/kg`;
+            document.getElementById('top-intensity').innerText = `${co2_int.toFixed(2)} kg COâ‚‚e/kg`;
             const screeningStatus = document.getElementById('top-screening-status');
-            screeningStatus.innerText = operational.status === 'FAIL' ? `FAIL • ${operational.failed_stage_count} stage threshold violation${operational.failed_stage_count === 1 ? '' : 's'}` : operational.status === 'PASS' ? 'PASS • No stage threshold violations' : 'Recalculate to generate operational screening';
+            screeningStatus.innerText = operational.status === 'FAIL' ? `FAIL â€¢ ${operational.failed_stage_count} stage threshold violation${operational.failed_stage_count === 1 ? '' : 's'}` : operational.status === 'PASS' ? 'PASS â€¢ No stage threshold violations' : 'Recalculate to generate operational screening';
             screeningStatus.className = operational.status === 'FAIL' ? 'text-[11px] font-bold text-saas-red mt-2' : operational.status === 'PASS' ? 'text-[11px] font-bold text-saas-primary mt-2' : 'text-[11px] font-bold text-saas-orange mt-2';
 
             const topMargin = document.getElementById('top-margin');
@@ -2126,7 +2171,7 @@
                     topMarginCurrency.classList.add('hidden');
                     topMargin.innerText = `Not calculated`;
                 }
-                topMarginStatus.innerText = `${buyer.pass ? 'PASS - within CHAKRA reference' : 'NEEDS ATTENTION - above CHAKRA reference'}${buyer.exposure_calculated ? '' : ' • add a sourced price for exposure'}`;
+                topMarginStatus.innerText = `${buyer.pass ? 'PASS - within CHAKRA reference' : 'NEEDS ATTENTION - above CHAKRA reference'}${buyer.exposure_calculated ? '' : ' â€¢ add a sourced price for exposure'}`;
                 topMarginStatus.className = buyer.pass ? "text-[11px] font-semibold text-saas-primary mt-2 truncate" : "text-[11px] font-semibold text-saas-red mt-2 truncate";
             } else {
                 topMarginCurrency.classList.add('hidden');
@@ -2137,7 +2182,7 @@
 
             isFactoryPassing = !integrityRisk;
             exportBtn.disabled = integrityRisk;
-            exportBtn.innerHTML = integrityRisk ? `🚫 Review Blocked (Data Integrity)` : `🛡️ Submit for Auditor Review`;
+            exportBtn.innerHTML = integrityRisk ? `ðŸš« Review Blocked (Data Integrity)` : `ðŸ›¡ï¸ Submit for Auditor Review`;
             exportBtn.className = integrityRisk ? `btn-secondary ml-1 opacity-60 cursor-not-allowed` : `btn-primary ml-1 bg-saas-primary text-white`;
 
             const cctsBadge = document.getElementById('cctsStatus'), topRevenue = document.getElementById('top-revenue'), topRevenueCurrency = document.getElementById('top-revenue-currency'), cctsValueLabel = document.getElementById('ccts-value-label');
@@ -2146,7 +2191,7 @@
                 const shortfall = Number(ccts.scenario_shortfall_tco2e || 0);
                 const isSurplus = surplus > 0;
                 const isShortfall = shortfall > 0;
-                cctsBadge.textContent = isSurplus ? `Illustrative surplus: ${surplus.toFixed(2)} tCO₂e • eligibility not determined` : isShortfall ? `Illustrative shortfall: ${shortfall.toFixed(2)} tCO₂e • obligation not determined` : `At the sourced scenario target • scheme status not determined`;
+                cctsBadge.textContent = isSurplus ? `Illustrative surplus: ${surplus.toFixed(2)} tCOâ‚‚e â€¢ eligibility not determined` : isShortfall ? `Illustrative shortfall: ${shortfall.toFixed(2)} tCOâ‚‚e â€¢ obligation not determined` : `At the sourced scenario target â€¢ scheme status not determined`;
                 cctsBadge.className = isShortfall ? "text-[11px] font-semibold text-saas-orange mt-2 truncate" : "text-[11px] font-semibold text-saas-primary mt-2 truncate";
                 const priceProvided = ccts.value_calculated === true || ccts.exposure_calculated === true;
                 if (cctsValueLabel) cctsValueLabel.textContent = isShortfall ? 'Illustrative CCTS Market Exposure' : isSurplus ? 'Illustrative CCTS Market Value' : 'CCTS Awareness Simulator';
@@ -2221,7 +2266,7 @@
                 const data = await response.json().catch(() => ({}));
                 if (!response.ok) throw new Error(data.detail || 'Could not submit review.');
                 const btn = document.getElementById('exportBtn');
-                btn.disabled = true; btn.innerHTML = '⏳ Pending Independent Review';
+                btn.disabled = true; btn.innerHTML = 'â³ Pending Independent Review';
                 currentRunData.reviewStatus = 'pending_review';
                 currentRunData.passport = null;
                 renderReviewStepper();
@@ -2263,6 +2308,52 @@
             const btn = document.getElementById('viewJsonLdBtn');
             if (btn) btn.textContent = 'View JSON-LD';
             lastStandardsMapping = null;
+            renderGs1DigitalLink(null);
+        }
+
+        function renderGs1DigitalLink(dl) {
+            const avail = document.getElementById('gs1-link-available');
+            const empty = document.getElementById('gs1-link-empty');
+            const badge = document.getElementById('gs1-link-badge');
+            if (!avail || !empty) return;
+            if (dl && dl.digital_link_uri && dl.gtin) {
+                avail.classList.remove('hidden');
+                empty.classList.add('hidden');
+                const gtinVal = document.getElementById('gs1-gtin-val');
+                if (gtinVal) gtinVal.textContent = dl.gtin;
+                const batchWrap = document.getElementById('gs1-batch-wrap');
+                const batchVal = document.getElementById('gs1-batch-val');
+                if (dl.batch_lot && batchWrap && batchVal) {
+                    batchWrap.classList.remove('hidden');
+                    batchVal.textContent = dl.batch_lot;
+                } else if (batchWrap) {
+                    batchWrap.classList.add('hidden');
+                }
+                const uriText = document.getElementById('gs1-uri-text');
+                if (uriText) uriText.textContent = dl.digital_link_uri;
+                if (badge) {
+                    badge.className = 'text-[10px] px-1.5 py-0.5 rounded bg-saas-primaryBg text-saas-primary font-bold';
+                    badge.textContent = 'GS1 Digital Link Ready';
+                }
+            } else {
+                avail.classList.add('hidden');
+                empty.classList.remove('hidden');
+                if (badge) {
+                    badge.className = 'text-[10px] px-1.5 py-0.5 rounded bg-saas-surface text-saas-sec font-medium';
+                    badge.textContent = 'Not Configured';
+                }
+            }
+        }
+
+        function copyGs1Uri() {
+            const uriText = document.getElementById('gs1-uri-text')?.textContent;
+            if (uriText && uriText !== '--') {
+                navigator.clipboard.writeText(uriText).then(() => {
+                    showToast('GS1 Digital Link URI copied to clipboard.');
+                }).catch(() => {
+                    showToast('Could not copy to clipboard.', true);
+                });
+            }
         }
 
         function setIssuanceStep(name, state) {
@@ -2289,6 +2380,12 @@
                 ['Signature', verification.signature_valid ? 'Ed25519 verified' : 'Verification failed'],
                 ['Record status', verification.revoked ? 'Revoked' : verification.valid ? 'Valid' : 'Not valid'],
             ];
+            if (passport.gtin) {
+                fields.splice(1, 0, ['GTIN (AI 01)', passport.gtin]);
+            }
+            if (passport.batch_lot) {
+                fields.splice(2, 0, ['Batch/Lot (AI 10)', passport.batch_lot]);
+            }
             const container = document.getElementById('dpp-fields'); container.innerHTML = '';
             fields.forEach(([label, value]) => {
                 const field = document.createElement('div'); field.className = 'dpp-field';
@@ -2321,8 +2418,8 @@
             setIssuanceStep('verification','complete');
             setIssuanceStep('ready','complete');
             const recordState = verification.revoked ? 'REVOKED' : verification.valid ? 'VALID' : 'NOT VALID';
-            const operational = passport.operational_status ? ` • Operational ${passport.operational_status}` : '';
-            document.getElementById('passportModalText').textContent = `Passport ${passport.passport_id} • ${recordState} • Signature verified • Independently reviewed${operational}`;
+            const operational = passport.operational_status ? ` â€¢ Operational ${passport.operational_status}` : '';
+            document.getElementById('passportModalText').textContent = `Passport ${passport.passport_id} â€¢ ${recordState} â€¢ Signature verified â€¢ Independently reviewed${operational}`;
             const qrContainer = document.getElementById('qrcode-container'); qrContainer.innerHTML = '';
             new QRCode(qrContainer, { text:passport.verification_url, width:150, height:150, colorDark:'#0f172a', colorLight:'#ffffff', correctLevel:QRCode.CorrectLevel.M });
             document.getElementById('qrScanLine').style.display = REDUCED_MOTION ? 'none' : 'block';
@@ -2330,6 +2427,7 @@
             if (verification.standards_mapping?.representation) {
                 lastStandardsMapping = verification.standards_mapping.representation;
             }
+            renderGs1DigitalLink(verification.digital_link || passport.digital_link || null);
             document.getElementById('dpp-ready-content').classList.add('is-ready');
             lastMintedPassport = { ...passport, revoked:!!verification.revoked };
             if (currentRunData?.calculationId === passport.calculation_id) {
@@ -2364,11 +2462,11 @@
                     statusTag.className = item.operational_status === 'FAIL' ? 'px-2 py-0.5 rounded text-[10px] font-bold bg-saas-redBg text-saas-red border border-saas-red' : 'px-2 py-0.5 rounded text-[10px] font-bold bg-saas-primaryBg text-saas-primary border border-saas-primary';
                     statusTag.textContent = item.operational_status === 'FAIL' ? 'OPERATIONAL FAIL' : 'SCREENED PASS';
                     head.append(title, statusTag);
-                    
-                    const meta = document.createElement('div'); meta.className='text-xs text-saas-sec mt-1'; meta.textContent = `Submitted by ${safePlainText(item.submitter,80)} • Carbon ${Number(item.carbon_intensity).toFixed(2)} kg CO₂e/kg • Score ${Number(item.bharat_score).toFixed(1)}`;
+
+                    const meta = document.createElement('div'); meta.className='text-xs text-saas-sec mt-1'; meta.textContent = `Submitted by ${safePlainText(item.submitter,80)} â€¢ Carbon ${Number(item.carbon_intensity).toFixed(2)} kg COâ‚‚e/kg â€¢ Score ${Number(item.bharat_score).toFixed(1)}`;
                     const operational = document.createElement('div');
                     operational.className = item.operational_status === 'FAIL' ? 'text-xs font-bold text-saas-red mt-2.5 p-2 rounded border border-saas-red bg-saas-redBg' : 'text-xs font-bold text-saas-primary mt-2.5 p-2 rounded border border-saas-primary bg-saas-primaryBg';
-                    operational.textContent = item.operational_status === 'FAIL' ? `Operational FAIL • ${item.failed_stage_count} failed stage(s): ${(item.failed_stages || []).join(', ')}. Signing records this failure; it does not approve sustainability performance.` : 'Operational PASS • No configured stage-threshold failures.';
+                    operational.textContent = item.operational_status === 'FAIL' ? `Operational FAIL â€¢ ${item.failed_stage_count} failed stage(s): ${(item.failed_stages || []).join(', ')}. Signing records this failure; it does not approve sustainability performance.` : 'Operational PASS â€¢ No configured stage-threshold failures.';
                     const actions = document.createElement('div'); actions.className='flex gap-2 mt-3';
                     const approve = document.createElement('button'); approve.className='btn-primary glare-hover text-xs px-3 py-1.5 font-semibold'; approve.textContent=item.operational_status === 'FAIL'?'Sign Factual DPP (FAIL Recorded)':'Review & Sign Factual DPP'; approve.onclick=()=>mintReviewedPassport(item.calculation_id);
                     const reject = document.createElement('button'); reject.className='btn-secondary text-xs px-3 py-1.5 font-semibold'; reject.textContent='Reject'; reject.onclick=()=>rejectReviewedCalculation(item.calculation_id);
@@ -2400,7 +2498,7 @@
                     const title=document.createElement('div'); title.className='font-bold text-xs text-saas-text font-mono'; title.textContent=safePlainText(item.event || 'event',80);
                     const badge=document.createElement('span'); badge.className=`px-2 py-0.5 rounded border text-[10px] font-bold ${item.success ? 'bg-saas-primaryBg text-saas-primary border-saas-primary' : 'bg-saas-redBg text-saas-red border-saas-red'}`; badge.textContent=item.success?'SUCCESS':'DENIED / FAILED';
                     head.append(title,badge);
-                    const meta=document.createElement('div'); meta.className='text-[11px] text-saas-sec mt-1 font-mono'; meta.textContent=`${new Date(Number(item.ts)*1000).toLocaleString()} • ${safePlainText(item.email || 'anonymous',254)} • IP hash: ${safePlainText(item.ip_hash || 'n/a',80)}`;
+                    const meta=document.createElement('div'); meta.className='text-[11px] text-saas-sec mt-1 font-mono'; meta.textContent=`${new Date(Number(item.ts)*1000).toLocaleString()} â€¢ ${safePlainText(item.email || 'anonymous',254)} â€¢ IP hash: ${safePlainText(item.ip_hash || 'n/a',80)}`;
                     row.append(head,meta);
                     if (item.details) { const details=document.createElement('div'); details.className='text-xs text-saas-sec mt-1.5 font-mono bg-saas-surface p-2 rounded border border-saas-border'; details.textContent=safePlainText(item.details,500); row.appendChild(details); }
                     list.appendChild(row);
@@ -2444,19 +2542,19 @@
             if (detail.review_status === 'approved' && detail.passport) {
                 btn.disabled = false;
                 btn.className = 'btn-primary glare-hover ml-1';
-                btn.innerHTML = detail.passport.revoked ? '⚠ Passport Revoked' : '✅ Approved • View Signed DPP';
+                btn.innerHTML = detail.passport.revoked ? 'âš  Passport Revoked' : 'âœ… Approved â€¢ View Signed DPP';
             } else if (detail.review_status === 'pending_review') {
                 btn.disabled = true;
                 btn.className = 'btn-secondary glare-hover ml-1 opacity-70 cursor-not-allowed';
-                btn.innerHTML = '⏳ Pending Independent Review';
+                btn.innerHTML = 'â³ Pending Independent Review';
             } else if (detail.review_status === 'rejected') {
                 btn.disabled = false;
                 btn.className = 'btn-secondary glare-hover ml-1 border-saas-red text-saas-red';
-                btn.innerHTML = '↻ Rejected • Resubmit After Fix';
+                btn.innerHTML = 'â†» Rejected â€¢ Resubmit After Fix';
             } else {
                 btn.disabled = !isFactoryPassing;
                 btn.className = isFactoryPassing ? 'btn-secondary glare-hover ml-1' : 'btn-secondary glare-hover ml-1 opacity-50 cursor-not-allowed border-dashed';
-                btn.innerHTML = isFactoryPassing ? 'Submit for Independent Review' : '🔒 Review Blocked';
+                btn.innerHTML = isFactoryPassing ? 'Submit for Independent Review' : 'ðŸ”’ Review Blocked';
             }
         }
 
@@ -2486,6 +2584,10 @@
                 document.getElementById('ccts_target').value = inp.ccts_target_intensity ?? '';
                 document.getElementById('ccts_target_source').value = inp.ccts_target_source ?? '';
                 document.getElementById('ccts_price').value = inp.ccts_price_inr_per_tonne ?? '';
+                const gtinEl = document.getElementById('gtin_input');
+                if (gtinEl) gtinEl.value = inp.gtin || '';
+                const batchEl = document.getElementById('batch_lot_input');
+                if (batchEl) batchEl.value = inp.batch_lot || '';
                 const rawInputs = {
                     w: inp.weight_kg, spin_pwr: inp.spin_kwh, weave_pwr: inp.weave_kwh, wet_pwr: inp.wet_kwh,
                     h: inp.water_liters, c: inp.chemicals_kg, sew_pwr: inp.sew_kwh, sew_waste: inp.waste_kg, pack_kg: inp.packaging_kg
@@ -2507,7 +2609,7 @@
                 if (!response.ok) throw new Error(data.detail || 'Unable to load your batches.');
                 const items = data.items || [];
                 const btn = document.getElementById('myBatchesBtn');
-                if (btn) btn.textContent = items.length ? `My Batches • ${reviewStatusLabel(items[0].review_status)}` : 'My Batches';
+                if (btn) btn.textContent = items.length ? `My Batches â€¢ ${reviewStatusLabel(items[0].review_status)}` : 'My Batches';
                 if (list) {
                     list.innerHTML = '';
                     if (!items.length) {
@@ -2518,7 +2620,7 @@
                         const head=document.createElement('div'); head.className='flex items-start justify-between gap-3';
                         const left=document.createElement('div');
                         const title=document.createElement('div'); title.className='font-bold text-sm text-saas-text'; title.textContent=item.calculation_id;
-                        const meta=document.createElement('div'); meta.className='text-xs text-saas-sec mt-1'; meta.textContent=`${new Date(item.created_at*1000).toLocaleString()} • Carbon ${Number(item.carbon_intensity).toFixed(2)} kg CO₂e/kg • Score ${Number(item.bharat_score).toFixed(1)}`;
+                        const meta=document.createElement('div'); meta.className='text-xs text-saas-sec mt-1'; meta.textContent=`${new Date(item.created_at*1000).toLocaleString()} â€¢ Carbon ${Number(item.carbon_intensity).toFixed(2)} kg COâ‚‚e/kg â€¢ Score ${Number(item.bharat_score).toFixed(1)}`;
                         left.append(title,meta);
                         const badge=document.createElement('span'); badge.className=`px-2.5 py-0.5 rounded border text-[10px] font-bold ${reviewStatusClasses(item.review_status)}`; badge.textContent=reviewStatusLabel(item.review_status);
                         head.append(left,badge); card.appendChild(head);
@@ -2576,7 +2678,7 @@
             const violations = assessment.violations || [];
             if (c.total_tax > 0) {
                 const t_mat = (c.e_mat / c.carbonTotal) * c.total_tax, t_spin = (c.e_spin / c.carbonTotal) * c.total_tax, t_weave = (c.e_weave / c.carbonTotal) * c.total_tax, t_wet = (c.e_wet / c.carbonTotal) * c.total_tax, t_sew = (c.e_sew / c.carbonTotal) * c.total_tax;
-                const createBar = (name, tax, pct, color) => `<div class="mb-2.5"><div class="flex justify-between text-xs mb-1 font-semibold"><span class="text-saas-text">${name}</span><span class="text-saas-red font-mono">₹ ${tax.toLocaleString('en-IN',{maximumFractionDigits:0})}</span></div><div class="w-full bg-saas-surface rounded-full h-1.5"><div class="h-1.5 rounded-full" style="width: ${pct}%; background-color: ${color}"></div></div></div>`;
+                const createBar = (name, tax, pct, color) => `<div class="mb-2.5"><div class="flex justify-between text-xs mb-1 font-semibold"><span class="text-saas-text">${name}</span><span class="text-saas-red font-mono">â‚¹ ${tax.toLocaleString('en-IN',{maximumFractionDigits:0})}</span></div><div class="w-full bg-saas-surface rounded-full h-1.5"><div class="h-1.5 rounded-full" style="width: ${pct}%; background-color: ${color}"></div></div></div>`;
                 bleedHtml += `<div class="text-[11px] font-bold text-saas-red uppercase tracking-wider mb-2">Sourced Financial Scenario</div>`;
                 bleedHtml += createBar("Step 1: Raw Materials", t_mat, (t_mat/c.total_tax)*100, "var(--color-blue)"); bleedHtml += createBar("Step 2: Spinning", t_spin, (t_spin/c.total_tax)*100, "var(--color-orange)"); bleedHtml += createBar("Step 3: Weaving", t_weave, (t_weave/c.total_tax)*100, "#f43f5e"); bleedHtml += createBar("Step 4: Dyeing", t_wet, (t_wet/c.total_tax)*100, "#8b5cf6"); bleedHtml += createBar("Step 5: Cut & Sew", t_sew, (t_sew/c.total_tax)*100, "var(--color-primary)");
             } else if (c.buyerBenchmark && !c.buyerBenchmark.pass) {
@@ -2584,16 +2686,16 @@
             }
 
             if (violations.length) {
-                bleedHtml += `<div class="p-3 mb-2 bg-saas-redBg border border-saas-red text-saas-red rounded-lg text-xs font-semibold">CHAKRA Operational FAIL • ${violations.length} stage threshold violation${violations.length === 1 ? '' : 's'}</div>`;
+                bleedHtml += `<div class="p-3 mb-2 bg-saas-redBg border border-saas-red text-saas-red rounded-lg text-xs font-semibold">CHAKRA Operational FAIL â€¢ ${violations.length} stage threshold violation${violations.length === 1 ? '' : 's'}</div>`;
                 bleedHtml += `<div class="text-[11px] font-bold text-saas-sec uppercase tracking-wider mb-2">Non-financial impact breakdown</div>`;
                 violations.forEach(v => {
                     const pct = Math.max(2, Math.min(100, Number(v.emissions_share_percent || 0)));
                     const excess = v.excess_percent == null ? 'configured material rule triggered' : `${Number(v.excess_percent).toFixed(1)}% over threshold`;
-                    bleedHtml += `<div class="mb-2.5"><div class="flex justify-between gap-2 text-xs mb-1 font-semibold"><span class="text-saas-text">${v.stage}</span><span class="text-saas-red font-mono">${Number(v.emissions_kgco2e).toLocaleString('en-IN',{maximumFractionDigits:0})} kg CO₂e</span></div><div class="text-[11px] text-saas-sec mb-1">${excess} • ${Number(v.emissions_share_percent).toFixed(1)}% of batch emissions</div><div class="w-full bg-saas-surface rounded-full h-1.5"><div class="h-1.5 rounded-full bg-saas-red" style="width:${pct}%"></div></div></div>`;
+                    bleedHtml += `<div class="mb-2.5"><div class="flex justify-between gap-2 text-xs mb-1 font-semibold"><span class="text-saas-text">${v.stage}</span><span class="text-saas-red font-mono">${Number(v.emissions_kgco2e).toLocaleString('en-IN',{maximumFractionDigits:0})} kg COâ‚‚e</span></div><div class="text-[11px] text-saas-sec mb-1">${excess} â€¢ ${Number(v.emissions_share_percent).toFixed(1)}% of batch emissions</div><div class="w-full bg-saas-surface rounded-full h-1.5"><div class="h-1.5 rounded-full bg-saas-red" style="width:${pct}%"></div></div></div>`;
                 });
                 bleedHtml += `<p class="text-[11px] text-saas-sec border-t border-saas-border pt-2">Operational threshold results are internal screening signals, not statutory fines.</p>`;
             } else if (assessment.status === 'PASS') {
-                bleedHtml += `<div class="p-3.5 bg-saas-primaryBg border border-saas-primary text-saas-primary rounded-lg text-xs font-semibold flex items-center gap-2"><span class="text-base">🏆</span> Operational PASS • No stage threshold violations detected.</div>`;
+                bleedHtml += `<div class="p-3.5 bg-saas-primaryBg border border-saas-primary text-saas-primary rounded-lg text-xs font-semibold flex items-center gap-2"><span class="text-base">ðŸ†</span> Operational PASS â€¢ No stage threshold violations detected.</div>`;
             } else {
                 bleedHtml += `<div class="p-3.5 bg-saas-orangeBg border border-saas-orange text-saas-orange rounded-lg text-xs font-semibold">Operational result unavailable. Recalculate this batch to generate the restored stage assessment.</div>`;
             }
@@ -2601,14 +2703,14 @@
 
             let html = ``;
             const boxStyle = "diag-box text-xs";
-            if (c.anomalies?.length) { html += `<div class="${boxStyle} diag-warn"><h4 class="font-bold mb-1">Data-Quality Review</h4><p>${c.anomalies.map(x=>safePlainText(x,300)).join(' • ')}</p><p class="mt-1 text-saas-sec">These are plausibility warnings, not proof of false reporting.</p></div>`; }
-            if (c.fiberId === 1 || c.fiberId === 4) { html += `<div class="${boxStyle} diag-warn"><h4 class="font-bold mb-1">Step 1: Material Supply</h4><p>The configured virgin-material rule is triggered for this batch. Review verified alternatives where product requirements allow.</p></div>`; } 
+            if (c.anomalies?.length) { html += `<div class="${boxStyle} diag-warn"><h4 class="font-bold mb-1">Data-Quality Review</h4><p>${c.anomalies.map(x=>safePlainText(x,300)).join(' â€¢ ')}</p><p class="mt-1 text-saas-sec">These are plausibility warnings, not proof of false reporting.</p></div>`; }
+            if (c.fiberId === 1 || c.fiberId === 4) { html += `<div class="${boxStyle} diag-warn"><h4 class="font-bold mb-1">Step 1: Material Supply</h4><p>The configured virgin-material rule is triggered for this batch. Review verified alternatives where product requirements allow.</p></div>`; }
             else { html += `<div class="${boxStyle} diag-success"><h4 class="font-bold mb-1">Step 1: Material Supply</h4><p>The submitted selection does not trigger the configured virgin-material rule and uses the corresponding sourced screening factor.</p></div>`; }
             if ((c.spin_pwr / c.weight) > 1.2) { html += `<div class="${boxStyle} diag-warn"><h4 class="font-bold mb-1">Step 2: Spinning</h4><p>Submitted spinning electricity intensity exceeds the configured CHAKRA threshold.</p></div>`; }
             else { html += `<div class="${boxStyle} diag-success"><h4 class="font-bold mb-1">Step 2: Spinning</h4><p>Submitted spinning electricity intensity is within the configured CHAKRA threshold.</p></div>`; }
             if ((c.weave_pwr / c.weight) > 1.0) { html += `<div class="${boxStyle} diag-warn"><h4 class="font-bold mb-1">Step 3: Weaving / Knitting</h4><p>Submitted weaving electricity intensity exceeds the configured CHAKRA threshold.</p></div>`; }
             else { html += `<div class="${boxStyle} diag-success"><h4 class="font-bold mb-1">Step 3: Weaving / Knitting</h4><p>Submitted weaving electricity intensity is within the configured CHAKRA threshold.</p></div>`; }
-            if ((c.wet_pwr / c.weight) > 4) { html += `<div class="${boxStyle} diag-warn"><h4 class="font-bold mb-1">Step 4: Dyeing & Washing</h4><p>Submitted wet-process electricity intensity exceeds the configured CHAKRA threshold.</p></div>`; } 
+            if ((c.wet_pwr / c.weight) > 4) { html += `<div class="${boxStyle} diag-warn"><h4 class="font-bold mb-1">Step 4: Dyeing & Washing</h4><p>Submitted wet-process electricity intensity exceeds the configured CHAKRA threshold.</p></div>`; }
             else { html += `<div class="${boxStyle} diag-success"><h4 class="font-bold mb-1">Step 4: Dyeing & Washing</h4><p>Submitted wet-process electricity intensity is within the configured CHAKRA threshold.</p></div>`; }
             if ((c.sew_waste / c.weight) > 0.1) { html += `<div class="${boxStyle} diag-warn"><h4 class="font-bold mb-1">Step 5: Fabric Waste</h4><p>Fabric waste exceeds the configured operational threshold and requires corrective action.</p></div>`; }
             else { html += `<div class="${boxStyle} diag-success"><h4 class="font-bold mb-1">Step 5: Fabric Waste</h4><p>Submitted fabric-waste ratio is within the configured CHAKRA threshold.</p></div>`; }
@@ -2632,7 +2734,7 @@
                     responsive: true, maintainAspectRatio: false,
                     plugins: {
                         legend: { position: 'left', labels: { color: getVar('--text-sec'), usePointStyle: true, boxWidth: 6, font:{ family: 'Inter', size: 11 } } },
-                        tooltip: { callbacks: { label: function(context) { return context.label + ': ' + Math.floor(context.parsed).toLocaleString('en-IN') + ' kg CO₂e (Carbon Emissions)'; } } }
+                        tooltip: { callbacks: { label: function(context) { return context.label + ': ' + Math.floor(context.parsed).toLocaleString('en-IN') + ' kg COâ‚‚e (Carbon Emissions)'; } } }
                     }
                 }
             });
@@ -2659,7 +2761,7 @@
                     <div class="p-4 bg-saas-card border-l-4 border-saas-primary rounded-lg shadow-sm">
                         <h3 class="font-bold text-base ${riskClass}">CHAKRA Decision Tier: ${ai.risk_tier}</h3>
                         <p class="font-bold mt-1.5 text-xs ${assessment.status === 'FAIL' ? 'text-saas-red' : 'text-saas-primary'}">Deterministic operational result: ${assessment.status}${assessment.status === 'FAIL' ? ` (${assessment.failed_stage_count} failed stages)` : ''}</p>
-                        <p class="text-saas-sec mt-1 text-xs">XGBoost cohort tier: ${modelTier} (${(Number(modelConfidence || 0)*100).toFixed(1)}% model confidence) • Priority stage confidence: ${(Number(ai.stage_confidence || 0)*100).toFixed(1)}%</p>
+                        <p class="text-saas-sec mt-1 text-xs">XGBoost cohort tier: ${modelTier} (${(Number(modelConfidence || 0)*100).toFixed(1)}% model confidence) â€¢ Priority stage confidence: ${(Number(ai.stage_confidence || 0)*100).toFixed(1)}%</p>
                         ${ai.risk_guardrail_applied ? `<p class="text-xs text-saas-red font-semibold mt-2">The final tier was raised because measured stage failures must not be hidden by a relative-cohort ML result.</p>` : ''}
                         <div class="mt-3 p-3 bg-saas-surface border border-saas-border rounded-lg">
                             <p class="text-[11px] uppercase tracking-wider font-bold text-saas-sec">XGBoost Cohort Priority Stage</p>
@@ -2710,7 +2812,7 @@
 
             document.getElementById('opt-old-tax').innerText = assessment.status === 'FAIL' ? `FAIL (${assessment.failed_stage_count} stages)` : assessment.status === 'PASS' ? 'PASS' : 'Recalculate';
             document.getElementById('opt-plan-details').innerHTML = html_plan;
-            document.getElementById('opt-new-tax').innerText = c.buyerBenchmark ? `₹ ${c.total_tax.toLocaleString('en-IN', {maximumFractionDigits:0})}` : 'Not calculated';
+            document.getElementById('opt-new-tax').innerText = c.buyerBenchmark ? `â‚¹ ${c.total_tax.toLocaleString('en-IN', {maximumFractionDigits:0})}` : 'Not calculated';
 
             const newBadge = document.getElementById('opt-new-badge'), optStatusText = document.getElementById('opt-status-text');
             newBadge.innerText = badgeText;
@@ -2792,7 +2894,7 @@
                     batchDataStore.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
                     if(batchDataStore.length > 0) {
                         document.getElementById('lead-best-name').innerText = batchDataStore[0].name; animateElementValue(document.getElementById('lead-best-score'), 0, Number(batchDataStore[0].score), 800, true);
-                        document.getElementById('lead-worst-name').innerText = batchDataStore[batchDataStore.length - 1].name; document.getElementById('lead-worst-tax').innerText = `${batchDataStore[batchDataStore.length - 1].intensity} kg CO₂e/kg`;
+                        document.getElementById('lead-worst-name').innerText = batchDataStore[batchDataStore.length - 1].name; document.getElementById('lead-worst-tax').innerText = `${batchDataStore[batchDataStore.length - 1].intensity} kg COâ‚‚e/kg`;
                         animateElementValue(document.getElementById('lead-health-pct'), 0, (batchDataStore.filter(f => f.isCompliant).length / batchDataStore.length) * 100, 800, false);
                     }
                     if (!batchDataStore.length) {
@@ -2831,7 +2933,7 @@
             const f = batchDataStore[index];
             document.getElementById('xai-factory-name').innerText = f.name; document.getElementById('xai-score').innerText = f.score; document.getElementById('xai-rank').innerText = `#${index + 1} of ${batchDataStore.length}`;
             let score = parseFloat(f.score), summary = "";
-            
+
             if (f.violations && f.violations.length) summary = `<strong class="text-saas-red text-sm">Operational FAIL.</strong><br>${f.violations.length} production stage${f.violations.length===1?' exceeds':'s exceed'} the configured CHAKRA operational thresholds. Review the impact breakdown and corrective actions below.`;
             else if (score >= 90) summary = `<strong class="text-saas-primary text-sm">Low current risk.</strong><br>The submitted values are within the configured thresholds and show comparatively low carbon intensity.`;
             else if (score >= 50) summary = `<strong class="text-saas-orange text-sm">Review recommended.</strong><br>Some indicators are near or above the configured thresholds. Check the stage breakdown before making a sourcing decision.`;
@@ -2849,21 +2951,21 @@
                             </div>
                             <div class="text-right">
                                 <span class="text-[11px] text-saas-sec uppercase font-semibold">Stage Emissions</span>
-                                <h4 class="font-bold text-saas-red text-sm font-mono">${Number(v.emissions).toLocaleString('en-IN',{maximumFractionDigits:0})} kg CO₂e</h4>
+                                <h4 class="font-bold text-saas-red text-sm font-mono">${Number(v.emissions).toLocaleString('en-IN',{maximumFractionDigits:0})} kg COâ‚‚e</h4>
                             </div>
                         </div>
                         <div class="w-full bg-saas-surface rounded-full h-1.5 mb-2"><div class="h-1.5 rounded-full bg-saas-red" style="width:${Math.max(2,Math.min(100,v.share))}%"></div></div>
-                        <p class="text-xs text-saas-sec mb-1"><strong class="text-saas-text">Threshold result:</strong> ${v.excessPercent == null ? 'Configured material rule triggered' : `${v.excessPercent.toFixed(1)}% over the operational threshold`} • ${v.share.toFixed(1)}% of batch emissions.</p>
+                        <p class="text-xs text-saas-sec mb-1"><strong class="text-saas-text">Threshold result:</strong> ${v.excessPercent == null ? 'Configured material rule triggered' : `${v.excessPercent.toFixed(1)}% over the operational threshold`} â€¢ ${v.share.toFixed(1)}% of batch emissions.</p>
                         <p class="text-xs text-saas-sec mb-1"><strong class="text-saas-text">Why it failed:</strong> ${v.reason}</p>
                         <p class="text-xs text-saas-sec"><strong class="text-saas-primary">Action:</strong> ${v.fix}</p>
                     </div>
                 `;
 
-                html += `<div class="p-3 bg-saas-redBg border border-saas-red text-saas-red rounded-lg text-xs font-bold mb-3">CHAKRA Operational FAIL • ${f.violations.length} stage threshold violation${f.violations.length===1?'':'s'}</div>`;
+                html += `<div class="p-3 bg-saas-redBg border border-saas-red text-saas-red rounded-lg text-xs font-bold mb-3">CHAKRA Operational FAIL â€¢ ${f.violations.length} stage threshold violation${f.violations.length===1?'':'s'}</div>`;
                 html += `<p class="text-[11px] font-bold text-saas-red uppercase tracking-wider mb-2 border-b border-saas-border pb-1">Impact Breakdown</p>`;
                 f.violations.forEach((v,i)=>{ html += createDetailedCard(i+1,v); });
                 html += `<p class="text-[11px] text-saas-sec">These are internal operational screening results, not statutory fines.</p>`;
-            } else { 
+            } else {
                 const createSuccessCard = (stepNum, name, reason, impact) => `
                     <div class="mb-3 bg-saas-card p-4 rounded-lg border border-saas-primary shadow-sm">
                         <div class="flex justify-between items-start mb-2">
@@ -2877,8 +2979,8 @@
                         <p class="text-xs text-saas-sec"><strong class="text-saas-primary">Business Impact:</strong> ${impact}</p>
                     </div>
                 `;
-                
-                html += `<div class="p-3 bg-saas-primaryBg border border-saas-primary text-saas-primary rounded-lg text-xs font-bold text-center flex items-center justify-center gap-2 mb-3"><span class="text-base">🏆</span> <div>No current threshold violations detected.</div></div>`; 
+
+                html += `<div class="p-3 bg-saas-primaryBg border border-saas-primary text-saas-primary rounded-lg text-xs font-bold text-center flex items-center justify-center gap-2 mb-3"><span class="text-base">ðŸ†</span> <div>No current threshold violations detected.</div></div>`;
                 html += `<p class="text-[11px] font-bold text-saas-primary uppercase tracking-wider mb-2 border-b border-saas-border pb-1">Performance Breakdown</p>`;
                 html += createSuccessCard(1, "Raw Material Sourcing", "The submitted material selection does not trigger the CHAKRA virgin-material rule.", "Lowers the batch's starting embedded emissions relative to the configured virgin alternatives.");
                 html += createSuccessCard(2, "Spinning (Making Yarn)", "Submitted spinning intensity is within the configured operational threshold.", "Reduces the spinning stage's contribution to the batch footprint.");
@@ -2886,26 +2988,26 @@
                 html += createSuccessCard(4, "Dyeing & Washing", "Submitted wet-process electricity intensity is within the configured operational threshold.", "Keeps wet-processing energy from triggering an internal stage failure.");
                 html += createSuccessCard(5, "Cutting & Sewing", "Submitted fabric-waste ratio is within the configured operational threshold.", "Improves fabric yield and reduces waste-related footprint impacts.");
             }
-            
+
             document.getElementById('xai-detailed-analysis').innerHTML = html; document.getElementById('xai-modal').classList.remove('hidden'); document.getElementById('xai-modal').classList.add('flex');
         }
         function closeXAI() { document.getElementById('xai-modal').classList.add('hidden'); document.getElementById('xai-modal').classList.remove('flex'); }
 
         function downloadSuratDataset() {
-            let csvContent = "Date,Textile Output (MT/month),No. of Textile Units,Electricity Consumption (GWh/month),Water Usage (Million Liters/day),Wastewater Discharged (Million Liters/day),PM2.5 Levels (µg/m³),NOx Levels (µg/m³),BOD in Water Bodies (mg/L),SO2 Levels (µg/m³),CO Levels (mg/m³),AQI,Industrial Emissions (tons/month)\n";
+            let csvContent = "Date,Textile Output (MT/month),No. of Textile Units,Electricity Consumption (GWh/month),Water Usage (Million Liters/day),Wastewater Discharged (Million Liters/day),PM2.5 Levels (Âµg/mÂ³),NOx Levels (Âµg/mÂ³),BOD in Water Bodies (mg/L),SO2 Levels (Âµg/mÂ³),CO Levels (mg/mÂ³),AQI,Industrial Emissions (tons/month)\n";
             let startDate = new Date(2022, 0, 31);
             let baseUnits = 50, baseOut = 25000, baseWater = 94.0;
-            
+
             for(let i=0; i<36; i++) {
                 let d = new Date(startDate);
                 d.setMonth(d.getMonth() + i);
                 let dStr = d.toISOString().split('T')[0];
-                let variance = 1 + (Math.sin(i / 3) * 0.08) + ((Math.random() * 0.04) - 0.02); 
-                let out = baseOut * variance, units = baseUnits, elec = 35.0 * variance, water = baseWater * variance, ww = water * 0.85; 
+                let variance = 1 + (Math.sin(i / 3) * 0.08) + ((Math.random() * 0.04) - 0.02);
+                let out = baseOut * variance, units = baseUnits, elec = 35.0 * variance, water = baseWater * variance, ww = water * 0.85;
                 let pm = 90.0 * variance + (Math.random() * 10), nox = 60.0 * variance + (Math.random() * 5), so2 = 40.0 * variance + (Math.random() * 4), co = 1.2 * variance;
-                let bod = 65.0 * variance + (Math.random() * 10); 
-                let aqi = (pm * 1.2) + (nox * 0.4) + (so2 * 0.3); 
-                let em = out * 0.12; 
+                let bod = 65.0 * variance + (Math.random() * 10);
+                let aqi = (pm * 1.2) + (nox * 0.4) + (so2 * 0.3);
+                let em = out * 0.12;
                 csvContent += `${dStr},${out.toFixed(2)},${units},${elec.toFixed(2)},${water.toFixed(2)},${ww.toFixed(2)},${pm.toFixed(2)},${nox.toFixed(2)},${bod.toFixed(2)},${so2.toFixed(2)},${co.toFixed(2)},${aqi.toFixed(2)},${em.toFixed(2)}\n`;
             }
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -2927,9 +3029,9 @@
                     const labels = [], aqiData = [], waterData = [];
 
                     data.forEach(row => {
-                        const aqi = parseFloat(row.AQI); 
-                        const bod = parseFloat(row['BOD in Water Bodies (mg/L)']); 
-                        const ww = parseFloat(row['Wastewater Discharged (Million Liters/day)']); 
+                        const aqi = parseFloat(row.AQI);
+                        const bod = parseFloat(row['BOD in Water Bodies (mg/L)']);
+                        const ww = parseFloat(row['Wastewater Discharged (Million Liters/day)']);
                         const dStr = row.Date;
                         if(!isNaN(aqi) && !isNaN(bod) && !isNaN(ww) && dStr) {
                             totalAQI += aqi; totalBOD += bod; totalWasteWater += ww; validRows++;
@@ -2941,8 +3043,8 @@
 
                     const avgAQI = totalAQI / validRows, avgBOD = totalBOD / validRows, avgWW = totalWasteWater / validRows;
                     animateElementValue(document.getElementById('surat-months'), 0, validRows, 800, false);
-                    animateElementValue(document.getElementById('surat-aqi'), 0, avgAQI, 800, true); 
-                    animateElementValue(document.getElementById('surat-water'), 0, avgWW, 800, true); 
+                    animateElementValue(document.getElementById('surat-aqi'), 0, avgAQI, 800, true);
+                    animateElementValue(document.getElementById('surat-water'), 0, avgWW, 800, true);
                     animateElementValue(document.getElementById('surat-bod'), 0, avgBOD, 800, true);
 
                     let insightHTML = `
@@ -2994,7 +3096,7 @@
         function initScope3Network() {
             const isDark = document.documentElement.classList.contains('dark');
             const fontColor = isDark ? '#f8fafc' : '#0f172a';
-            
+
             if (!scope3Nodes) {
                 scope3Nodes = new vis.DataSet([
                     fixedScope3Node(1, "Awaiting Data"),
@@ -3015,19 +3117,19 @@
 
                 const container = document.getElementById('network-container');
                 const data = { nodes: scope3Nodes, edges: scope3Edges };
-                
+
                 const options = {
-                    nodes: { 
-                        shape: 'box', 
-                        margin: 14, 
-                        borderWidth: 1.5, 
+                    nodes: {
+                        shape: 'box',
+                        margin: 14,
+                        borderWidth: 1.5,
                         widthConstraint: { minimum:170, maximum:180 },
-                        font: { multi: 'html', face: 'Inter', color: fontColor, size: 12, align: 'center' }, 
+                        font: { multi: 'html', face: 'Inter', color: fontColor, size: 12, align: 'center' },
                         shadow: { enabled: true, color: 'rgba(0,0,0,0.08)', size: 4, x: 0, y: 2 }
                     },
                     edges: {
                         width: 1.5,
-                        font: { face: 'Inter', align: 'middle', size: 10, color: fontColor, background: isDark ? '#111827' : '#ffffff', strokeWidth: 0 }, 
+                        font: { face: 'Inter', align: 'middle', size: 10, color: fontColor, background: isDark ? '#111827' : '#ffffff', strokeWidth: 0 },
                         smooth: false,
                         arrows: { to: { enabled:true, scaleFactor:0.7 } }
                     },
@@ -3063,22 +3165,22 @@
                         const nodeId = params.nodes[0];
                         const fData = scope3FactoryData[nodeId];
                         if(!fData) return;
-                        
+
                         document.getElementById('panel-name').innerText = fData.name;
                         document.getElementById('panel-tier').innerText = fData.tier;
                         document.getElementById('panel-status').innerText = fData.status;
                         document.getElementById('panel-status').className = `px-2.5 py-1 rounded text-xs font-bold border ${fData.statusClass}`;
-                        
+
                         document.getElementById('panel-local-carbon').innerText = fData.local.toLocaleString('en-IN', {maximumFractionDigits:1});
                         document.getElementById('panel-inherited-carbon').innerText = fData.inherited.toLocaleString('en-IN', {maximumFractionDigits:1});
                         document.getElementById('panel-total-carbon').innerText = fData.totalIntensity.toLocaleString('en-IN', {maximumFractionDigits:2});
-                        
+
                         document.getElementById('panel-message').innerText = fData.msg;
                         document.getElementById('panel-message').className = `text-xs mt-2 font-medium leading-relaxed ${fData.msgClass}`;
-                        
-                        panel.classList.add('active'); 
+
+                        panel.classList.add('active');
                     } else {
-                        panel.classList.remove('active'); 
+                        panel.classList.remove('active');
                     }
                 });
             } else {
@@ -3127,9 +3229,9 @@
             const i3 = m3 / w;
             const i4 = m4 / w;
             const i5 = m5 / w;
-            
+
             const accInt5 = a5 / w;
-            
+
             const failedStages = new Set(c.operationalAssessment?.failed_stages || []);
             const is1Bad = failedStages.has('Raw Materials');
             const is2Bad = failedStages.has('Spinning');
@@ -3148,11 +3250,11 @@
             ];
 
             scope3Nodes.update([
-                { id: 1, label: `<b>${loc[0]}</b>\nStage 1: Material\n<i>Adds ${(m1).toLocaleString('en-IN', {maximumFractionDigits:0})} kg CO₂e</i>\n[ Intensity: +${i1.toFixed(2)}/kg ]`, group: is1Bad ? 'critical' : 'clean' },
-                { id: 2, label: `<b>${loc[1]}</b>\nStage 2: Spinning\n<i>Adds ${(m2).toLocaleString('en-IN', {maximumFractionDigits:0})} kg CO₂e</i>\n[ Intensity: +${i2.toFixed(2)}/kg ]`, group: is2Bad ? 'critical' : 'clean' },
-                { id: 3, label: `<b>${loc[2]}</b>\nStage 3: Weaving\n<i>Adds ${(m3).toLocaleString('en-IN', {maximumFractionDigits:0})} kg CO₂e</i>\n[ Intensity: +${i3.toFixed(2)}/kg ]`, group: is3Bad ? 'critical' : 'clean' },
-                { id: 4, label: `<b>${loc[3]}</b>\nStage 4: Dyeing\n<i>Adds ${(m4).toLocaleString('en-IN', {maximumFractionDigits:0})} kg CO₂e</i>\n[ Intensity: +${i4.toFixed(2)}/kg ]`, group: is4Bad ? 'critical' : 'clean' },
-                { id: 5, label: `<b>${loc[4]}</b>\nStage 5: Assembly\n<i>Adds ${(m5).toLocaleString('en-IN', {maximumFractionDigits:0})} kg CO₂e</i>\n[ Intensity: +${i5.toFixed(2)}/kg ]`, group: is5Bad ? 'critical' : 'clean' },
+                { id: 1, label: `<b>${loc[0]}</b>\nStage 1: Material\n<i>Adds ${(m1).toLocaleString('en-IN', {maximumFractionDigits:0})} kg COâ‚‚e</i>\n[ Intensity: +${i1.toFixed(2)}/kg ]`, group: is1Bad ? 'critical' : 'clean' },
+                { id: 2, label: `<b>${loc[1]}</b>\nStage 2: Spinning\n<i>Adds ${(m2).toLocaleString('en-IN', {maximumFractionDigits:0})} kg COâ‚‚e</i>\n[ Intensity: +${i2.toFixed(2)}/kg ]`, group: is2Bad ? 'critical' : 'clean' },
+                { id: 3, label: `<b>${loc[2]}</b>\nStage 3: Weaving\n<i>Adds ${(m3).toLocaleString('en-IN', {maximumFractionDigits:0})} kg COâ‚‚e</i>\n[ Intensity: +${i3.toFixed(2)}/kg ]`, group: is3Bad ? 'critical' : 'clean' },
+                { id: 4, label: `<b>${loc[3]}</b>\nStage 4: Dyeing\n<i>Adds ${(m4).toLocaleString('en-IN', {maximumFractionDigits:0})} kg COâ‚‚e</i>\n[ Intensity: +${i4.toFixed(2)}/kg ]`, group: is4Bad ? 'critical' : 'clean' },
+                { id: 5, label: `<b>${loc[4]}</b>\nStage 5: Assembly\n<i>Adds ${(m5).toLocaleString('en-IN', {maximumFractionDigits:0})} kg COâ‚‚e</i>\n[ Intensity: +${i5.toFixed(2)}/kg ]`, group: is5Bad ? 'critical' : 'clean' },
                 { id: 6, label: `<b>CHAKRA Review Gate</b>\nDPP Readiness\n<i>Evidence + operational check</i>`, group: reviewFlag ? 'infected' : 'clean' }
             ]);
 
@@ -3184,7 +3286,7 @@
                 document.getElementById('threat-panel').classList.remove('active');
             }
         }
-        
+
         function generatePDF() {
             if (!lastMintedPassport) { showToast('No independently reviewed signed passport is available.', true); return; }
             try {
@@ -3194,6 +3296,9 @@
                 doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(15, 23, 42);
                 const lines = [
                     `Passport ID: ${p.passport_id}`, `Calculation ID: ${p.calculation_id}`, `Factory: ${p.factory}`,
+                    ...(p.gtin ? [`GTIN (AI 01): ${p.gtin}`] : []),
+                    ...(p.batch_lot ? [`Batch / Lot (AI 10): ${p.batch_lot}`] : []),
+                    ...(p.digital_link?.digital_link_uri ? [`GS1 Digital Link: ${p.digital_link.digital_link_uri}`] : []),
                     `State: ${p.batch_state}`, `Fiber: ${p.fiber}`, `Batch Weight: ${Number(p.weight_kg).toLocaleString('en-IN')} kg`,
                     `Carbon Intensity: ${Number(p.carbon_intensity).toFixed(3)} kg CO2e/kg`, `CHAKRA Score: ${Number(p.chakra_score ?? p.bharat_score).toFixed(1)}`,
                     `Operational Status: ${p.operational_status || 'Not recorded in legacy passport'}`, `Failed Stages: ${(p.failed_stages || []).join(', ') || 'None recorded'}`,

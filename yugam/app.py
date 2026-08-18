@@ -63,6 +63,14 @@ except ImportError:
     except ImportError:
         explain_stage_prediction = None
 
+try:
+    from yugam.dpp_standards import get_standards_mapping_payload
+except ImportError:
+    try:
+        from dpp_standards import get_standards_mapping_payload
+    except ImportError:
+        get_standards_mapping_payload = None
+
 app = FastAPI(title="CHAKRA-AI Secure API", version="2.3.0", docs_url=None, redoc_url=None)
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -1622,11 +1630,18 @@ async def mint_passport(ref: CalculationRef, request: Request,
 
     _audit("passport_minted", request, True, user_id=user["user_id"], email=user["email"], details=passport_id)
     verify_url = str(request.base_url).rstrip("/") + f"/api/v2/passports/{passport_id}/verify"
-    return {"status": "minted", "passport": {**payload, "signature": signature_b64, "verification_url": verify_url}}
+    passport_data = {**payload, "signature": signature_b64, "verification_url": verify_url}
+    standards_mapping = None
+    if get_standards_mapping_payload is not None:
+        standards_mapping = get_standards_mapping_payload(passport_data)
+    resp = {"status": "minted", "passport": passport_data}
+    if standards_mapping:
+        resp["standards_mapping"] = standards_mapping
+    return resp
 
 
 @app.get("/api/v2/passports/{passport_id}/verify")
-async def verify_passport(passport_id: str):
+async def verify_passport(passport_id: str, request: Request):
     if not re.fullmatch(r"DPP-[A-F0-9]{20}", passport_id):
         raise HTTPException(status_code=404, detail="Passport not found.")
     with _db() as conn:
@@ -1640,7 +1655,19 @@ async def verify_passport(passport_id: str):
         signature_valid = True
     except Exception:
         signature_valid = False
-    return {
+
+    passport_with_meta = {
+        **payload,
+        "signature": row["signature_b64"],
+        "verification_url": str(request.base_url).rstrip("/") + f"/api/v2/passports/{passport_id}/verify",
+        "revoked": bool(row["revoked_at"]),
+        "revocation_reason": row["revocation_reason"] if row["revoked_at"] else None,
+    }
+    standards_mapping = None
+    if get_standards_mapping_payload is not None:
+        standards_mapping = get_standards_mapping_payload(passport_with_meta)
+
+    resp = {
         "passport_id": passport_id,
         "valid": bool(signature_valid and not row["revoked_at"]),
         "signature_valid": signature_valid,
@@ -1648,6 +1675,30 @@ async def verify_passport(passport_id: str):
         "revocation_reason": row["revocation_reason"] if row["revoked_at"] else None,
         "passport": payload,
     }
+    if standards_mapping:
+        resp["standards_mapping"] = standards_mapping
+    return resp
+
+
+@app.get("/api/v2/passports/{passport_id}/standards")
+async def passport_standards_mapping(passport_id: str, request: Request):
+    if not re.fullmatch(r"DPP-[A-F0-9]{20}", passport_id):
+        raise HTTPException(status_code=404, detail="Passport not found.")
+    with _db() as conn:
+        row = conn.execute("SELECT * FROM passports WHERE passport_id=?", (passport_id,)).fetchone()
+    if not row:
+        raise HTTPException(status_code=404, detail="Passport not found.")
+    payload = json.loads(row["payload_json"])
+    passport_with_meta = {
+        **payload,
+        "signature": row["signature_b64"],
+        "verification_url": str(request.base_url).rstrip("/") + f"/api/v2/passports/{passport_id}/verify",
+        "revoked": bool(row["revoked_at"]),
+        "revocation_reason": row["revocation_reason"] if row["revoked_at"] else None,
+    }
+    if get_standards_mapping_payload is None:
+        raise HTTPException(status_code=503, detail="Standards mapping unavailable.")
+    return get_standards_mapping_payload(passport_with_meta)
 
 
 @app.post("/api/v2/passports/{passport_id}/revoke")

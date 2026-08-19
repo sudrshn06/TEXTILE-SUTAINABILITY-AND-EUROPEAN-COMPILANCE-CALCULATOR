@@ -144,6 +144,39 @@ def test_validate_gtin_non_numeric_and_invalid_lengths():
     assert not valid
 
 
+def test_normalize_gtin_ascii_digits_only_regression():
+    # Valid ASCII GTIN-14 must be accepted
+    assert normalize_gtin("09501101530003") == "09501101530003"
+    valid, norm, err = validate_gtin("09501101530003")
+    assert valid
+    assert norm == "09501101530003"
+    assert err is None
+
+    # Arabic-Indic non-ASCII digits must be rejected
+    with pytest.raises(ValueError, match="numeric digits"):
+        normalize_gtin("٠٩٥٠١١٠١٥٣٠٠٠٣")
+    valid, norm, err = validate_gtin("٠٩٥٠١١٠١٥٣٠٠٠٣")
+    assert not valid
+    assert norm is None
+    assert "numeric" in err
+
+    # Fullwidth non-ASCII digits must be rejected
+    with pytest.raises(ValueError, match="numeric digits"):
+        normalize_gtin("０９５０１１０１５３０００３")
+    valid, norm, err = validate_gtin("０９５０１１０１５３０００３")
+    assert not valid
+    assert norm is None
+    assert "numeric" in err
+
+    # Mixed ASCII and Unicode digits must be rejected
+    with pytest.raises(ValueError, match="numeric digits"):
+        normalize_gtin("095011015300０3")
+    valid, norm, err = validate_gtin("095011015300０3")
+    assert not valid
+    assert norm is None
+    assert "numeric" in err
+
+
 # ==============================================================================
 # 2. AI 10 Batch/Lot Validation (1*20 XCHAR) Tests
 # ==============================================================================

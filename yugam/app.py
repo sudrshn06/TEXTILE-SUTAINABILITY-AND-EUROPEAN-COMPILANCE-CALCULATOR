@@ -1,5 +1,5 @@
 """
-CHAKRA-AI Backend v2.3 â€” Evidence-Aware Textile Sustainability Screening
+CHAKRA-AI Backend v2.3 — Evidence-Aware Textile Sustainability Screening
 =========================================================================
 This build separates three things that were previously mixed together:
   1. transparent screening-LCA arithmetic,
@@ -97,9 +97,9 @@ except ImportError:
 
 app = FastAPI(title="CHAKRA-AI Secure API", version="2.3.0", docs_url=None, redoc_url=None)
 
-# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# ═══════════════════════════════════════════════════════════════════════════════
 #  EVIDENCE-AWARE CONSTANTS
-# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# ═══════════════════════════════════════════════════════════════════════════════
 
 CEA_GRID_VERSION = "21.0"
 CEA_GRID_FY = "2024-25"
@@ -269,7 +269,7 @@ def _ccts_awareness_scenario(actual_intensity: float, production_kg: float,
     }
 
 
-# â”€â”€ XGBoost decision-support intelligence engine â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ── XGBoost decision-support intelligence engine ──────────────────────────────
 # The model interprets factory/process data and makes operational decisions:
 #   1) sustainability risk tier, and
 #   2) highest-priority manufacturing stage for corrective action.
@@ -635,7 +635,7 @@ def _apply_operational_risk_guardrail(ai_decision: dict, assessment: dict) -> di
     })
     return ai_decision
 
-# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# ═══════════════════════════════════════════════════════════════════════════════
 #  SECURE-BY-DESIGN LAYER
 #  - Real server authentication (Argon2id password hashing)
 #  - HttpOnly session cookies + CSRF tokens
@@ -646,7 +646,7 @@ def _apply_operational_risk_guardrail(ai_decision: dict, assessment: dict) -> di
 #  - Audit logging, login throttling and temporary account lockout
 #  - Trusted hosts, restrictive CORS, security headers and request-size limits
 #  - Ed25519 signed, server-derived passports with revocation support
-# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# ═══════════════════════════════════════════════════════════════════════════════
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
@@ -840,7 +840,7 @@ def _audit(event: str, request: Request, success: bool, user_id: Optional[int] =
         pass
 
 
-# â”€â”€ Layered rate limits â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+# ── Layered rate limits ────────────────────────────────────────────────────────
 _rate_store: dict[tuple[str, str], list[float]] = defaultdict(list)
 
 def _rate_limit_for(path: str) -> tuple[str, int, int]:
@@ -931,9 +931,9 @@ async def secure_request_middleware(request: Request, call_next):
     return response
 
 
-# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# ═══════════════════════════════════════════════════════════════════════════════
 #  AUTHENTICATION / AUTHORIZATION
-# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# ═══════════════════════════════════════════════════════════════════════════════
 
 class StrictAPIModel(BaseModel):
     model_config = ConfigDict(extra="forbid", allow_inf_nan=False, str_strip_whitespace=True)
@@ -1212,9 +1212,9 @@ async def logout(request: Request, user: dict = Depends(require_csrf)):
     return response
 
 
-# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# ═══════════════════════════════════════════════════════════════════════════════
 #  CORE LCA CALCULATION
-# â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+# ═══════════════════════════════════════════════════════════════════════════════
 
 def _compute_lca(data: LCAInput) -> dict:
     ecology = STATE_ECOLOGY[data.state]

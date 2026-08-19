@@ -83,7 +83,7 @@ def calculate_gtin_check_digit(digits_13: str) -> int:
     Alternates weights of 3 and 1 from right to left:
     pos 13: *3, pos 12: *1, pos 11: *3, ..., pos 1: *3.
     """
-    if len(digits_13) != 13 or not digits_13.isdigit():
+    if len(digits_13) != 13 or not digits_13.isascii() or not digits_13.isdigit():
         raise ValueError("Check digit calculation requires exactly 13 digits.")
 
     total = 0
@@ -110,7 +110,7 @@ def normalize_gtin(gtin: str) -> str:
     if not gtin or not isinstance(gtin, str):
         raise ValueError("GTIN must be a non-empty string.")
 
-    if not gtin.isdigit():
+    if not gtin.isascii() or not gtin.isdigit():
         raise ValueError(f"GTIN must contain only numeric digits; received '{gtin}'.")
 
     length = len(gtin)
